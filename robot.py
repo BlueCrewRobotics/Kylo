@@ -9,7 +9,7 @@ import wpilib
 import wpilib.drive
 
 from robotpy_ext.common_drivers import navx
-
+from networktables import NetworkTables
 from xbox import XboxController
 
 class Kylo(wpilib.IterativeRobot):
@@ -17,15 +17,12 @@ class Kylo(wpilib.IterativeRobot):
     # Initialize All of the Components
     def robotInit(self):
 
-        self.sd = wpilib.SmartDashboard()
+        self.sd = NetworkTables.getTable("SmartDashboard")
         self.navx = navx.AHRS.create_spi()
-        self.sd.putNumber("Its Works!", 2)
+        #self.sd.putNumber("Its Works!", 1)
         
         self.analog = wpilib.AnalogInput(navx.getNavxAnalogInChannel(0))
         self.timer = wpilib.Timer()
-
-        
-      
 
         # Left Motors
         self.left_front = wpilib.VictorSP(0)
@@ -62,6 +59,7 @@ class Kylo(wpilib.IterativeRobot):
         # Reset Timer
         self.timer.reset()
 
+        self.sd.putNumber("numbers", 1)
         # Start Timer
         self.timer.start()
 
@@ -105,12 +103,8 @@ class Kylo(wpilib.IterativeRobot):
             self.intake_two.set(0)
             self.shifter.set(0)
         
-        while self.isDisabled():
-            self.sd.putNumber("Maybe", 1)
-
-       
         
-        self.sd.putNumber('Yaw', 12)
+        self.sd.putNumber('Yaw', self.navx.getYaw())
 
 
 
