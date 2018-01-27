@@ -17,12 +17,11 @@ class Kylo(wpilib.IterativeRobot):
     # Initialize All of the Components
     def robotInit(self):
 
+        #Initialize NetworkTable for new SmartDashboard
         self.sd = NetworkTables.getTable("SmartDashboard")
+
+        #Initialize NavX on SPI bus
         self.navx = navx.AHRS.create_spi()
-        #self.sd.putNumber("Its Works!", 1)
-        
-        self.analog = wpilib.AnalogInput(navx.getNavxAnalogInChannel(0))
-        self.timer = wpilib.Timer()
 
         # Left Motors
         self.left_front = wpilib.VictorSP(0)
