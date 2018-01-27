@@ -8,12 +8,24 @@
 import wpilib
 import wpilib.drive
 
+from robotpy_ext.common_drivers import navx
+
 from xbox import XboxController
 
 class Kylo(wpilib.IterativeRobot):
 
     # Initialize All of the Components
     def robotInit(self):
+
+        self.sd = wpilib.SmartDashboard()
+        self.navx = navx.AHRS.create_spi()
+        self.sd.putNumber("Its Works!", 2)
+        
+        self.analog = wpilib.AnalogInput(navx.getNavxAnalogInChannel(0))
+        self.timer = wpilib.Timer()
+
+        
+      
 
         # Left Motors
         self.left_front = wpilib.VictorSP(0)
@@ -67,6 +79,7 @@ class Kylo(wpilib.IterativeRobot):
     # Called Periodically During Teleop
     def teleopPeriodic(self):
 
+     
         # Create Arcade Drive Instance
         self.drive.arcadeDrive(self.stick.getY() / 2, self.stick.getX() / 2)
         
@@ -91,7 +104,18 @@ class Kylo(wpilib.IterativeRobot):
             self.intake_one.set(0)
             self.intake_two.set(0)
             self.shifter.set(0)
+        
+        while self.isDisabled():
+            self.sd.putNumber("Maybe", 1)
+
+       
+        
+        self.sd.putNumber('Yaw', 12)
+
+
+
 
 # Run Main Robot Code Loop
 if __name__ == "__main__":
+
     wpilib.run(Kylo)
