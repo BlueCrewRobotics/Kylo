@@ -44,6 +44,9 @@ class Kylo(wpilib.IterativeRobot):
         # Create Timer (For Making Timed Events)
         self.timer = wpilib.Timer()
 
+        # Robot Drive Speed (Determined by Triggers in teleopPeriodic Function)
+        self.driveSpeed = 0
+
     # Called Each Time the Robot Runs Auto Mode
     def autonomousInit(self):
         
@@ -68,10 +71,16 @@ class Kylo(wpilib.IterativeRobot):
     def teleopPeriodic(self):
 
         # Create Arcade Drive Instance
-        self.drive.arcadeDrive(self.stick.getY() / 2, self.stick.getX() / 2)
+        self.drive.arcadeDrive(self.driveSpeed, self.stick.getX())
         
+        # Drive Forward with Right Trigger
+        if (self.controller.right_trigger()):
+            self.driveSpeed = self.stick.getRawAxis(3)
+        # Drive Backwards with Left Trigger
+        elif (self.controller.left_trigger()):
+            self.driveSpeed = self.stick.getRawAxis(2) * -1
         # Shift Up on Button Right Bumber Pressed
-        if (self.controller.right_bumper()):
+        elif (self.controller.right_bumper()):
             self.shifter.set(2)
             print(self.shifter.get())
         # Shift Down on Button Left Bumper Pressed
@@ -91,6 +100,7 @@ class Kylo(wpilib.IterativeRobot):
             self.intake_one.set(0)
             self.intake_two.set(0)
             self.shifter.set(0)
+            self.driveSpeed = 0
 
 # Run Main Robot Code Loop
 if __name__ == "__main__":
