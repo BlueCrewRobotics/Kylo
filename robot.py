@@ -8,12 +8,21 @@
 import wpilib
 import wpilib.drive
 
+from robotpy_ext.common_drivers import navx
+from networktables import NetworkTables
+
 from xbox import XboxController
 
 class Kylo(wpilib.IterativeRobot):
 
     # Initialize All of the Components
     def robotInit(self):
+
+        #Initialize NetworkTable for new SmartDashboard
+        self.sd = NetworkTables.getTable("SmartDashboard")
+
+        #Initialize NavX on SPI bus
+        self.navx = navx.AHRS.create_spi()
 
         # Left Motors
         self.left_front = wpilib.VictorSP(0)
@@ -71,6 +80,8 @@ class Kylo(wpilib.IterativeRobot):
     # Called Periodically During Auto
     def autonomousPeriodic(self):
 
+        self.sd.putNumber('Yaw', self.navx.getYaw())
+
         # Run for Two Seconds
         if self.timer.get() < 2.0:
             # Determine is Switch is on the Right or Left
@@ -91,14 +102,8 @@ class Kylo(wpilib.IterativeRobot):
         # Create Arcade Drive Instance
         self.drive.arcadeDrive(self.driveSpeed, self.stick.getX() / 2)
         
-        # Drive Forward with Right Trigger
-        if (self.controller.right_trigger()):
-            self.driveSpeed = self.stick.getRawAxis(3)
-        # Drive Backwards with Left Trigger
-        elif (self.controller.left_trigger()):
-            self.driveSpeed = self.stick.getRawAxis(2) * -1
         # Automatically Shift on Right Bumper Pressed
-        elif (self.controller.right_bumper()):
+        if (self.controller.right_bumper()):
             if (self.shiftState == 0):
                 self.shifter.set(1)
                 self.shiftState = 1
@@ -107,6 +112,12 @@ class Kylo(wpilib.IterativeRobot):
                 self.shifter.set(2)
                 self.shiftState = 0
                 self.timer.delay(0.5)
+        # Drive Forward with Right Trigger
+        elif (self.controller.right_trigger()):
+            self.driveSpeed = self.stick.getRawAxis(3)
+        # Drive Backwards with Left Trigger
+        elif (self.controller.left_trigger()):
+            self.driveSpeed = self.stick.getRawAxis(2) * -1
         # Intake on Button A Pressed
         elif (self.controller.a()):
             self.intake_one.set(0.5)
