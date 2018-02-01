@@ -71,6 +71,9 @@ class Kylo(wpilib.IterativeRobot):
         # Start Timer
         self.timer.start()
 
+        # Set Turn State
+        self.turnState = True
+
         # Get Switch Position (L or R)
         try:
             self.gameData = self.driverStation.getGameSpecificMessage()[0]
@@ -80,21 +83,34 @@ class Kylo(wpilib.IterativeRobot):
     # Called Periodically During Auto
     def autonomousPeriodic(self):
 
-        self.sd.putNumber('Yaw', self.navx.getYaw())
+        # Reset NavX
+        self.navx.reset()
 
-        # Run for Two Seconds
-        if self.timer.get() < 2.0:
-            # Determine is Switch is on the Right or Left
-            if (self.gameData == "L"):
-                print("Left Switch")
-            elif (self.gameData == "R"):
-                print("Right Switch")
+        # Turn Speed
+        turnSpeed = 0.4
+
+        while(self.turnState == True):
+            if (85.5 < self.navx.getYaw() < 90):
+                self.drive.arcadeDrive(0, 0)
+                self.turnState = False
+                break
             else:
-                # Report Error to Driver Station
-                self.driverStation.reportError("Could Not Detect Switch Position! Quiting Auto Mode!", False)
-        else:
-            # Stop Robot
-            self.drive.arcadeDrive(0, 0)
+                # Create Arcade Drive Instance
+                self.drive.arcadeDrive(0, turnSpeed)
+
+        # # Run for Two Seconds
+        # if self.timer.get() < 2.0:
+        #     # Determine is Switch is on the Right or Left
+        #     if (self.gameData == "L"):
+        #         print("Left Switch")
+        #     elif (self.gameData == "R"):
+        #         print("Right Switch")
+        #     else:
+        #         # Report Error to Driver Station
+        #         self.driverStation.reportError("Could Not Detect Switch Position! Quiting Auto Mode!", False)
+        # else:
+        #     # Stop Robot
+        #     self.drive.arcadeDrive(0, 0)
 
     # Called Periodically During Teleop
     def teleopPeriodic(self):
