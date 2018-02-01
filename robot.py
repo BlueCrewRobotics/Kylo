@@ -8,20 +8,12 @@
 import wpilib
 import wpilib.drive
 
-from robotpy_ext.common_drivers import navx
-from networktables import NetworkTables
 from xbox import XboxController
 
 class Kylo(wpilib.IterativeRobot):
 
     # Initialize All of the Components
     def robotInit(self):
-
-        #Initialize NetworkTable for new SmartDashboard
-        self.sd = NetworkTables.getTable("SmartDashboard")
-
-        #Initialize NavX on SPI bus
-        self.navx = navx.AHRS.create_spi()
 
         # Left Motors
         self.left_front = wpilib.VictorSP(0)
@@ -55,23 +47,40 @@ class Kylo(wpilib.IterativeRobot):
         # Robot Drive Speed (Determined by Triggers in teleopPeriodic Function)
         self.driveSpeed = 0
 
+        # Shifter State (To Allow Simple Automatic Shifting)
+        self.shiftState = 0
+
+        # Initialize Driver Station
+        self.driverStation = wpilib.DriverStation.getInstance()
+
     # Called Each Time the Robot Runs Auto Mode
     def autonomousInit(self):
         
         # Reset Timer
         self.timer.reset()
 
-        self.sd.putNumber("numbers", 1)
         # Start Timer
         self.timer.start()
+
+        # Get Switch Position (L or R)
+        try:
+            self.gameData = self.driverStation.getGameSpecificMessage()[0]
+        except IndexError:
+            self.gameData = "UNKNOWN"
 
     # Called Periodically During Auto
     def autonomousPeriodic(self):
 
-        # Drive for Two Seconds
+        # Run for Two Seconds
         if self.timer.get() < 2.0:
-            # Drive Forwards at Half Speed
-            self.drive.arcadeDrive(-0.5, 0)
+            # Determine is Switch is on the Right or Left
+            if (self.gameData == "L"):
+                print("Left Switch")
+            elif (self.gameData == "R"):
+                print("Right Switch")
+            else:
+                # Report Error to Driver Station
+                self.driverStation.reportError("Could Not Detect Switch Position! Quiting Auto Mode!", False)
         else:
             # Stop Robot
             self.drive.arcadeDrive(0, 0)
@@ -79,9 +88,8 @@ class Kylo(wpilib.IterativeRobot):
     # Called Periodically During Teleop
     def teleopPeriodic(self):
 
-     
         # Create Arcade Drive Instance
-        self.drive.arcadeDrive(self.driveSpeed, self.stick.getX())
+        self.drive.arcadeDrive(self.driveSpeed, self.stick.getX() / 2)
         
         # Drive Forward with Right Trigger
         if (self.controller.right_trigger()):
@@ -89,14 +97,16 @@ class Kylo(wpilib.IterativeRobot):
         # Drive Backwards with Left Trigger
         elif (self.controller.left_trigger()):
             self.driveSpeed = self.stick.getRawAxis(2) * -1
-        # Shift Up on Button Right Bumber Pressed
+        # Automatically Shift on Right Bumper Pressed
         elif (self.controller.right_bumper()):
-            self.shifter.set(2)
-            print(self.shifter.get())
-        # Shift Down on Button Left Bumper Pressed
-        elif (self.controller.left_bumper()):
-            self.shifter.set(1)
-            print(self.shifter.get())
+            if (self.shiftState == 0):
+                self.shifter.set(1)
+                self.shiftState = 1
+                self.timer.delay(0.5)
+            elif (self.shiftState == 1):
+                self.shifter.set(2)
+                self.shiftState = 0
+                self.timer.delay(0.5)
         # Intake on Button A Pressed
         elif (self.controller.a()):
             self.intake_one.set(0.5)
@@ -111,14 +121,7 @@ class Kylo(wpilib.IterativeRobot):
             self.intake_two.set(0)
             self.shifter.set(0)
             self.driveSpeed = 0
-     
-        self.sd.putNumber('Yaw', self.navx.getYaw())
-
-
-
-
 
 # Run Main Robot Code Loop
 if __name__ == "__main__":
-
     wpilib.run(Kylo)
