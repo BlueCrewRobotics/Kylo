@@ -8,6 +8,10 @@
 import wpilib
 import wpilib.drive
 
+# For Some Reason, This Class Signifigantly Slows Down Unit Testing.
+# So Don't Use it When It's Not Needed
+import wpilib.builtinaccelerometer
+
 from robotpy_ext.common_drivers import navx
 from networktables import NetworkTables
 
@@ -62,6 +66,12 @@ class Kylo(wpilib.IterativeRobot):
         # Initialize Driver Station
         self.driverStation = wpilib.DriverStation.getInstance()
 
+        # Create Variable for Auto Distance Measurement
+        self.autoDistanceTiming = 0
+
+        # Initialize Accelerometer
+        self.accel = wpilib.builtinaccelerometer.BuiltInAccelerometer()
+
     # Called Each Time the Robot Runs Auto Mode
     def autonomousInit(self):
         
@@ -80,23 +90,60 @@ class Kylo(wpilib.IterativeRobot):
         except IndexError:
             self.gameData = "UNKNOWN"
 
+        # Initial Acceleration Arrray
+        self.initialAcceleration = []
+
+        # Distance Calculations Array
+        self.distances = []
+
+        # Set Auto Distance Timing Variable
+        self.autoDistanceTiming = self.timer.getMsClock()
+
+        self.x = False
+        
+
     # Called Periodically During Auto
     def autonomousPeriodic(self):
 
-        # Reset NavX
-        self.navx.reset()
+        # Get Acceleration
+        accel = self.accel.getY()
 
-        # Turn Speed
-        turnSpeed = 0.4
+        if (self.x == False):
+            self.drive.arcadeDrive(0.55, 0)
 
-        while(self.turnState == True):
-            if (85.5 < self.navx.getYaw() < 90):
+            # Get Time Delta
+            timeDelta = (self.timer.getMsClock() - self.autoDistanceTiming) / 1000
+            
+            # Reset Distance Timing
+            self.autoDistanceTiming = self.timer.getMsClock()
+
+            # Send Initial Acceleration to Array
+            self.initialAcceleration.append((round(accel, 2) * 9.8) * timeDelta)
+
+            # Get Velocity
+            velocity = sum(self.initialAcceleration)
+
+            # Get Distance
+            distance = velocity * timeDelta
+
+            # Send Distace to Array
+            self.distances.append(distance)
+
+            print("Total Distance: " + str(sum(self.distances)))
+
+            if (sum(self.distances) <= -1.5):
+                self.x = True
                 self.drive.arcadeDrive(0, 0)
-                self.turnState = False
-                break
-            else:
-                # Create Arcade Drive Instance
-                self.drive.arcadeDrive(0, turnSpeed)
+
+        # print("Accel: " + str(accel * 9.8) + "M/s")
+
+        #print("Accel: " + str(accel.getY()))
+
+        # # Reset NavX
+        # self.navx.reset()
+
+        # # Turn Speed
+        # turnSpeed = 0.4
 
         # # Run for Two Seconds
         # if self.timer.get() < 2.0:
