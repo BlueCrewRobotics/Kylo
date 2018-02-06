@@ -22,10 +22,10 @@ class Kylo(wpilib.IterativeRobot):
     # Initialize All of the Components
     def robotInit(self):
 
-        #Initialize NetworkTable for new SmartDashboard
+        # Initialize NetworkTable for new SmartDashboard
         self.sd = NetworkTables.getTable("SmartDashboard")
 
-        #Initialize NavX on SPI bus
+        # Initialize NavX on SPI bus
         self.navx = navx.AHRS.create_spi()
 
         # Left Motors
@@ -61,7 +61,7 @@ class Kylo(wpilib.IterativeRobot):
         self.driveSpeed = 0
 
         # Shifter State (To Allow Simple Automatic Shifting)
-        self.shiftState = 0
+        self.shiftState = 0 
 
         # Initialize Driver Station
         self.driverStation = wpilib.DriverStation.getInstance()
@@ -99,7 +99,7 @@ class Kylo(wpilib.IterativeRobot):
         # Set Auto Distance Timing Variable
         self.autoDistanceTiming = self.timer.getMsClock()
 
-        self.x = False
+        self.hasMovedDistance = False
         
 
     # Called Periodically During Auto
@@ -108,7 +108,7 @@ class Kylo(wpilib.IterativeRobot):
         # Get Acceleration
         accel = self.accel.getY()
 
-        if (self.x == False):
+        if (self.hasMovedDistance == False):
             self.drive.arcadeDrive(0.55, 0)
 
             # Get Time Delta
@@ -132,7 +132,7 @@ class Kylo(wpilib.IterativeRobot):
             print("Total Distance: " + str(sum(self.distances)))
 
             if (sum(self.distances) <= -1.5):
-                self.x = True
+                self.hasMovedDistance = True
                 self.drive.arcadeDrive(0, 0)
 
         # print("Accel: " + str(accel * 9.8) + "M/s")
