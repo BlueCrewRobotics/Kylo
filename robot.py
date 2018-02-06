@@ -106,6 +106,29 @@ class Kylo(wpilib.IterativeRobot):
     # Called Periodically During Auto
     def autonomousPeriodic(self):
 
+        # Turn 90 Degrees Code
+
+        # Reset NavX
+        self.navx.reset()
+
+        # While Not at 90 Degrees, Keep Turning
+        while(self.turnState == True):
+            # Turn to Range of Degrees
+            if (85.5 < self.navx.getYaw() < 90):
+                # Stop Driving
+                self.drive.arcadeDrive(0, 0)
+
+                # Tell the Robot that it's Done Turning
+                self.turnState = False
+                break
+            else:
+                # Turn the Robot
+                self.drive.arcadeDrive(0, 0.4)
+
+        '''
+
+        # Measure Distance Code
+
         # Get Acceleration
         accel = self.accel.getY()
 
@@ -135,26 +158,26 @@ class Kylo(wpilib.IterativeRobot):
             if (sum(self.distances) <= -1.5):
                 self.hasMovedDistance = True
                 self.drive.arcadeDrive(0, 0)
+        '''
 
-        # # Reset NavX
-        # self.navx.reset()
+        '''
 
-        # # Turn Speed
-        # turnSpeed = 0.4
+        # Code for Getting Switch Data
 
-        # # Run for Two Seconds
-        # if self.timer.get() < 2.0:
-        #     # Determine is Switch is on the Right or Left
-        #     if (self.gameData == "L"):
-        #         print("Left Switch")
-        #     elif (self.gameData == "R"):
-        #         print("Right Switch")
-        #     else:
-        #         # Report Error to Driver Station
-        #         self.driverStation.reportError("Could Not Detect Switch Position! Quiting Auto Mode!", False)
-        # else:
-        #     # Stop Robot
-        #     self.drive.arcadeDrive(0, 0)
+        # Run for Two Seconds
+        if self.timer.get() < 2.0:
+            # Determine is Switch is on the Right or Left
+            if (self.gameData == "L"):
+                print("Left Switch")
+            elif (self.gameData == "R"):
+                print("Right Switch")
+            else:
+                # Report Error to Driver Station
+                self.driverStation.reportError("Could Not Detect Switch Position! Quiting Auto Mode!", False)
+        else:
+            # Stop Robot
+            self.drive.arcadeDrive(0, 0)
+        '''
 
     # Called Periodically During Teleop
     def teleopPeriodic(self):
