@@ -99,6 +99,7 @@ class Kylo(wpilib.IterativeRobot):
         # Set Auto Distance Timing Variable
         self.autoDistanceTiming = self.timer.getMsClock()
 
+        # Set True if Distance Traveled is Complete
         self.hasMovedDistance = False
         
 
@@ -134,10 +135,6 @@ class Kylo(wpilib.IterativeRobot):
             if (sum(self.distances) <= -1.5):
                 self.hasMovedDistance = True
                 self.drive.arcadeDrive(0, 0)
-
-        # print("Accel: " + str(accel * 9.8) + "M/s")
-
-        #print("Accel: " + str(accel.getY()))
 
         # # Reset NavX
         # self.navx.reset()
