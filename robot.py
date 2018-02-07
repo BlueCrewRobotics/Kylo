@@ -5,18 +5,18 @@
     Codename: Kylo
 """
 
+# Main Imports
 import wpilib
 import wpilib.drive
 
-# For Some Reason, This Class Signifigantly Slows Down Unit Testing.
-# So Don't Use it When It's Not Needed
-import wpilib.builtinaccelerometer
-
+# Extra Imports
 from robotpy_ext.common_drivers import navx
 from networktables import NetworkTables
 
+# Project Only Imports
 from xbox import XboxController
 
+# Begin Robot Code
 class Kylo(wpilib.IterativeRobot):
 
     # Initialize All of the Components
@@ -72,6 +72,17 @@ class Kylo(wpilib.IterativeRobot):
         # Initialize Accelerometer
         self.accel = wpilib.builtinaccelerometer.BuiltInAccelerometer()
 
+        # Initialize Sendable Chooser for Auto
+        self.autoChooser = wpilib.SendableChooser()
+
+        # Add Items to Auto Chooser
+        self.autoChooser.addObject('Left', 'L')
+        self.autoChooser.addDefault('Center', 'C')
+        self.autoChooser.addObject('Right', 'R')
+
+        # Put Auto Chooser on SmartDashboard
+        wpilib.SmartDashboard.putData('Auto Positon', self.autoChooser)
+
     # Called Each Time the Robot Runs Auto Mode
     def autonomousInit(self):
         
@@ -101,10 +112,16 @@ class Kylo(wpilib.IterativeRobot):
 
         # Set True if Distance Traveled is Complete
         self.hasMovedDistance = False
+
+        # Get Auto Mode from Chooser
+        self.autoMode = self.autoChooser.getSelected()
+        print(self.autoMode)
         
 
     # Called Periodically During Auto
     def autonomousPeriodic(self):
+
+        '''
 
         # Turn 90 Degrees Code
 
@@ -124,6 +141,8 @@ class Kylo(wpilib.IterativeRobot):
             else:
                 # Turn the Robot
                 self.drive.arcadeDrive(0, 0.4)
+
+        '''
 
         '''
 
