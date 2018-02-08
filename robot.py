@@ -129,15 +129,13 @@ class Kylo(wpilib.IterativeRobot):
         self.navx.reset()
 
         # While Not at 90 Degrees, Keep Turning
-        while(self.turnState == True):
+        if(self.turnState == True):
             # Turn to Range of Degrees
-            if (85.5 < self.navx.getYaw() < 90):
+            if (self.navx.getYaw() < 85.5):
                 # Stop Driving
                 self.drive.arcadeDrive(0, 0)
-
                 # Tell the Robot that it's Done Turning
                 self.turnState = False
-                break
             else:
                 # Turn the Robot
                 self.drive.arcadeDrive(0, 0.4)
