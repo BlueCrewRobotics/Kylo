@@ -10,11 +10,11 @@ import wpilib
 import wpilib.drive
 
 # Extra Imports
-from robotpy_ext.common_drivers import navx
 from networktables import NetworkTables
 
 # Project Only Imports
-from xbox import XboxController
+from Xbox import XboxController
+from KyloAuto import KyloAutonomous
 
 # Begin Robot Code
 class Kylo(wpilib.IterativeRobot):
@@ -22,11 +22,8 @@ class Kylo(wpilib.IterativeRobot):
     # Initialize All of the Components
     def robotInit(self):
 
-        # Initialize NetworkTable for new SmartDashboard
+        # Initialize NetworkTable for SmartDashboard
         self.sd = NetworkTables.getTable("SmartDashboard")
-
-        # Initialize NavX on SPI bus
-        self.navx = navx.AHRS.create_spi()
 
         # Left Motors
         self.left_front = wpilib.VictorSP(0)
@@ -63,15 +60,6 @@ class Kylo(wpilib.IterativeRobot):
         # Shifter State (To Allow Simple Automatic Shifting)
         self.shiftState = 0 
 
-        # Initialize Driver Station
-        self.driverStation = wpilib.DriverStation.getInstance()
-
-        # Create Variable for Auto Distance Measurement
-        self.autoDistanceTiming = 0
-
-        # Initialize Accelerometer
-        self.accel = wpilib.builtinaccelerometer.BuiltInAccelerometer()
-
         # Initialize Sendable Chooser for Auto
         self.autoChooser = wpilib.SendableChooser()
 
@@ -92,109 +80,19 @@ class Kylo(wpilib.IterativeRobot):
         # Start Timer
         self.timer.start()
 
-        # Set Turn State
-        self.turnState = True
-
-        # Get Switch Position (L or R)
-        try:
-            self.gameData = self.driverStation.getGameSpecificMessage()[0]
-        except IndexError:
-            self.gameData = "UNKNOWN"
-
-        # Initial Acceleration Arrray
-        self.initialAcceleration = []
-
-        # Distance Calculations Array
-        self.distances = []
-
-        # Set Auto Distance Timing Variable
-        self.autoDistanceTiming = self.timer.getMsClock()
-
-        # Set True if Distance Traveled is Complete
-        self.hasMovedDistance = False
-
         # Get Auto Mode from Chooser
         self.autoMode = self.autoChooser.getSelected()
         print(self.autoMode)
+
+        # Create Instance of Auto Modes
+        self.kyloAutos = KyloAutonomous(self.drive)
         
 
     # Called Periodically During Auto
     def autonomousPeriodic(self):
 
-        '''
-
-        # Turn 90 Degrees Code
-
-        # Reset NavX
-        self.navx.reset()
-
-        # While Not at 90 Degrees, Keep Turning
-        if(self.turnState == True):
-            # Turn to Range of Degrees
-            if (self.navx.getYaw() < 85.5):
-                # Stop Driving
-                self.drive.arcadeDrive(0, 0)
-                # Tell the Robot that it's Done Turning
-                self.turnState = False
-            else:
-                # Turn the Robot
-                self.drive.arcadeDrive(0, 0.4)
-
-        '''
-
-        '''
-
-        # Measure Distance Code
-
-        # Get Acceleration
-        accel = self.accel.getY()
-
-        if (self.hasMovedDistance == False):
-            self.drive.arcadeDrive(0.55, 0)
-
-            # Get Time Delta
-            timeDelta = (self.timer.getMsClock() - self.autoDistanceTiming) / 1000
-            
-            # Reset Distance Timing
-            self.autoDistanceTiming = self.timer.getMsClock()
-
-            # Send Initial Acceleration to Array
-            self.initialAcceleration.append((round(accel, 2) * 9.8) * timeDelta)
-
-            # Get Velocity
-            velocity = sum(self.initialAcceleration)
-
-            # Get Distance
-            distance = velocity * timeDelta
-
-            # Send Distace to Array
-            self.distances.append(distance)
-
-            print("Total Distance: " + str(sum(self.distances)))
-
-            if (sum(self.distances) <= -1.5):
-                self.hasMovedDistance = True
-                self.drive.arcadeDrive(0, 0)
-        '''
-
-        '''
-
-        # Code for Getting Switch Data
-
-        # Run for Two Seconds
-        if self.timer.get() < 2.0:
-            # Determine is Switch is on the Right or Left
-            if (self.gameData == "L"):
-                print("Left Switch")
-            elif (self.gameData == "R"):
-                print("Right Switch")
-            else:
-                # Report Error to Driver Station
-                self.driverStation.reportError("Could Not Detect Switch Position! Quiting Auto Mode!", False)
-        else:
-            # Stop Robot
-            self.drive.arcadeDrive(0, 0)
-        '''
+        # Determine and Run Auto
+        self.kyloAutos.determineAuto("L")
 
     # Called Periodically During Teleop
     def teleopPeriodic(self):
