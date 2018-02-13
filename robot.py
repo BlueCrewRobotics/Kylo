@@ -82,7 +82,6 @@ class Kylo(wpilib.IterativeRobot):
 
         # Get Auto Mode from Chooser
         self.autoMode = self.autoChooser.getSelected()
-        print(self.autoMode)
 
         # Create Instance of Auto Modes
         self.kyloAutos = KyloAutonomous(self.drive)
@@ -92,7 +91,7 @@ class Kylo(wpilib.IterativeRobot):
     def autonomousPeriodic(self):
 
         # Determine and Run Auto
-        self.kyloAutos.determineAuto("L")
+        self.kyloAutos.determineAuto(self.autoMode)
 
     # Called Periodically During Teleop
     def teleopPeriodic(self):
