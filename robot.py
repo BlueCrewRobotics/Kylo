@@ -44,11 +44,14 @@ class Kylo(wpilib.IterativeRobot):
         # Create Shifter Pneumatics
         self.shifter = wpilib.DoubleSolenoid(0, 0, 1)
         
-        # Create Joystick
-        self.stick = wpilib.Joystick(0)
+        # Create Drive Joystick
+        self.driveStick = wpilib.Joystick(0)
 
-        # Create Controller for Buttons
-        self.controller = XboxController(0)
+        # Create Controller for Driving
+        self.driveController = XboxController(0)
+
+        # Create Controller for Subsystem Control
+        self.subsystemController = XboxController(1)
         
         # Create Timer (For Making Timed Events)
         self.timer = wpilib.Timer()
@@ -156,10 +159,10 @@ class Kylo(wpilib.IterativeRobot):
     def teleopPeriodic(self):
 
         # Create Arcade Drive Instance
-        self.drive.arcadeDrive(self.driveSpeed, (self.stick.getX() * -1))
+        self.drive.arcadeDrive(self.driveSpeed, (self.driveStick.getX() * -1))
         
         # Automatically Shift on Right Bumper Pressed
-        if (self.controller.right_bumper()):
+        if (self.driveController.right_bumper()):
             if (self.shiftState == 0):
                 self.shifter.set(1)
                 self.shiftState = 1
@@ -169,22 +172,22 @@ class Kylo(wpilib.IterativeRobot):
                 self.shiftState = 0
                 self.timer.delay(0.5)
         # Drive Forward with Right Trigger
-        elif (self.controller.right_trigger()):
-            self.driveSpeed = self.stick.getRawAxis(3)
+        elif (self.driveController.right_trigger()):
+            self.driveSpeed = self.driveStick.getRawAxis(3)
         # Drive Backwards with Left Trigger
-        elif (self.controller.left_trigger()):
-            self.driveSpeed = self.stick.getRawAxis(2) * -1
-        # Intake on Button A Pressed
-        elif (self.controller.a()):
+        elif (self.driveController.left_trigger()):
+            self.driveSpeed = self.driveStick.getRawAxis(2) * -1
+        # Intake on Right Bumper Pressed
+        elif (self.subsystemController.right_bumper()):
             self.intakeMotor.set(0.5)
-        # Push Out on Button B Pressed
-        elif (self.controller.b()):
+        # Push Out on Left Bumper Pressed
+        elif (self.subsystemController.left_bumper()):
             self.intakeMotor.set(-0.75)
-        # Intake on Button X Pressed
-        elif (self.controller.x()):
+        # Intake on Right Trigger Pressed
+        elif (self.subsystemController.right_trigger()):
             self.intakeLifter.set(0.5)
-        # Push Out on Button Y Pressed
-        elif (self.controller.y()):
+        # Push Out on Left Trigger Pressed
+        elif (self.subsystemController.left_trigger()):
             self.intakeLifter.set(-0.3)
         # Set All Motors to Stop
         else:
