@@ -28,15 +28,9 @@ class Kylo(wpilib.IterativeRobot):
         # Initialize NavX on SPI bus
         self.navx = navx.AHRS.create_spi()
 
-        # Left Motors
-        self.left_front = wpilib.VictorSP(0)
-        self.left_rear = wpilib.VictorSP(1)
-        self.left = wpilib.SpeedControllerGroup(self.left_front, self.left_rear)
-
-        # Right Motors
-        self.right_front = wpilib.VictorSP(5)
-        self.right_rear = wpilib.VictorSP(3)
-        self.right = wpilib.SpeedControllerGroup(self.right_front, self.right_rear)
+        # Create Motors
+        self.left = wpilib.VictorSP(0)
+        self.right = wpilib.VictorSP(1)
 
         # Create Differential Drive (Entire Drive Train)
         self.drive = wpilib.drive.DifferentialDrive(self.left, self.right)
@@ -48,7 +42,7 @@ class Kylo(wpilib.IterativeRobot):
         self.intakeLifter = wpilib.Spark(6)
 
         # Create Shifter Pneumatics
-        self.shifter = wpilib.DoubleSolenoid(0, 2, 0)
+        self.shifter = wpilib.DoubleSolenoid(0, 0, 1)
         
         # Create Joystick
         self.stick = wpilib.Joystick(0)
@@ -67,9 +61,6 @@ class Kylo(wpilib.IterativeRobot):
 
         # Initialize Driver Station
         self.driverStation = wpilib.DriverStation.getInstance()
-
-        # Create Variable for Auto Distance Measurement
-        self.autoDistanceTiming = 0
 
         # Initialize Accelerometer
         self.accel = wpilib.builtinaccelerometer.BuiltInAccelerometer()
@@ -123,14 +114,11 @@ class Kylo(wpilib.IterativeRobot):
         # Reset NavX
         self.navx.reset()
 
+        # Variable to See if Robot Has Completed Turn
         self.hasCompletedTurn = False
 
         # Auto Stage Variable
         self.autoStage = 0
-
-        #distance 
-        self.distance = 0
-        
 
     # Called Periodically During Auto
     def autonomousPeriodic(self):
@@ -426,10 +414,10 @@ class Kylo(wpilib.IterativeRobot):
             velocity = sum(self.initialAcceleration)
 
             # Get Distance
-            self.distance = velocity * timeDelta
+            distance = velocity * timeDelta
 
             # Send Distace to Array
-            self.distances.append(self.distance)
+            self.distances.append(distance)
 
             print("Total Distance: " + str(sum(self.distances)))
             #print(round(accel, 2))
