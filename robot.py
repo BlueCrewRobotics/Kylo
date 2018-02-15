@@ -158,12 +158,27 @@ class Kylo(wpilib.IterativeRobot):
         else:
             self.EmergencyAuto()
             
+    def teleopInit(self):
+
+        # Reset Timer
+        self.timer.reset()
+
+        # Start Timer
+        self.timer.start()
 
     # Called Periodically During Teleop
     def teleopPeriodic(self):
 
         # Create Arcade Drive Instance
         self.drive.arcadeDrive(self.driveSpeed, (self.driveStick.getX() * -1))
+
+        print(self.timer.get())
+
+        # Rumble Controller
+        if (self.timer.get() > 110 and self.timer.get() < 120):
+            self.driveController.rumble(1, 1)
+        else:
+            self.driveController.rumble(0, 0)
         
         # Automatically Shift on Right Bumper Pressed
         if (self.driveController.right_bumper()):

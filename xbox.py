@@ -1,4 +1,5 @@
 from wpilib import Joystick, Timer
+from wpilib.interfaces import GenericHID
 
 
 class XboxController(object):
@@ -15,6 +16,8 @@ class XboxController(object):
         """
         self.joy = Joystick(port)
         self.debounce = DpadDebouncer()
+        self.hid = GenericHID(port)
+        self.hid.setOutputs(port)
 
     def left_x(self):
         """Get the left stick X axis
@@ -141,10 +144,8 @@ class XboxController(object):
 
     def rumble(self, left=None, right=None):
         """Sets the rumble amount on one/both side(s) of the controller"""
-        if left is not None:
-            self.joy.setRumble(Joystick.RumbleType.kLeftRumble_val, left)
-        if right is not None:
-            self.joy.setRumble(Joystick.RumbleType.kRightRumble_val, right)
+        self.hid.setRumble(self.hid.RumbleType.kLeftRumble, left)
+        self.hid.setRumble(self.hid.RumbleType.kRightRumble, right)
 
 
 class DpadDebouncer(object):
