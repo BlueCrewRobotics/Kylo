@@ -172,7 +172,8 @@ class Kylo(wpilib.IterativeRobot):
         # Create Arcade Drive Instance
         self.drive.arcadeDrive(self.driveSpeed, (self.driveStick.getX() * -1))
 
-        print(self.timer.get())
+        # Get DPad Button
+        dpadButton = self.subsystemController.dpad()
 
         # Rumble Controller
         if (self.timer.get() > 110 and self.timer.get() < 120):
@@ -214,6 +215,14 @@ class Kylo(wpilib.IterativeRobot):
         # Push Out on Left Trigger Pressed
         elif (self.subsystemController.left_trigger()):
             self.intakeLifter.set(-0.3)
+
+        # Push up Right Ramp on DPad Right Pressed
+        elif (self.subsystemController.a() and dpadButton != -1 and dpadButton > 0 and dpadButton < 180):
+            print("RIGHT")
+
+        # Push up Right Ramp on DPad Left Pressed
+        elif (self.subsystemController.a() and dpadButton != -1 and dpadButton > 180 and dpadButton < 359):
+            print("Left")
 
         # Set All Motors to Stop
         else:
