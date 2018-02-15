@@ -126,6 +126,9 @@ class Kylo(wpilib.IterativeRobot):
     # Called Periodically During Auto
     def autonomousPeriodic(self):
 
+        # ---- Game Data Detection ---- 
+        # code for detecting the side of
+        # the switch we need to use
         if (self.gameData == "L"):
             if (self.autoMode == "L"):
                 self.LeftStationLeftSwitch()
@@ -155,6 +158,7 @@ class Kylo(wpilib.IterativeRobot):
         else:
             self.EmergencyAuto()
             
+
     # Called Periodically During Teleop
     def teleopPeriodic(self):
 
@@ -171,24 +175,31 @@ class Kylo(wpilib.IterativeRobot):
                 self.shifter.set(2)
                 self.shiftState = 0
                 self.timer.delay(0.5)
+
         # Drive Forward with Right Trigger
         elif (self.driveController.right_trigger()):
             self.driveSpeed = self.driveStick.getRawAxis(3)
+
         # Drive Backwards with Left Trigger
         elif (self.driveController.left_trigger()):
             self.driveSpeed = self.driveStick.getRawAxis(2) * -1
+
         # Intake on Right Bumper Pressed
         elif (self.subsystemController.right_bumper()):
             self.intakeMotor.set(0.5)
+
         # Push Out on Left Bumper Pressed
         elif (self.subsystemController.left_bumper()):
             self.intakeMotor.set(-0.75)
+
         # Intake on Right Trigger Pressed
         elif (self.subsystemController.right_trigger()):
             self.intakeLifter.set(0.5)
+
         # Push Out on Left Trigger Pressed
         elif (self.subsystemController.left_trigger()):
             self.intakeLifter.set(-0.3)
+
         # Set All Motors to Stop
         else:
             self.intakeMotor.set(0)
@@ -196,24 +207,29 @@ class Kylo(wpilib.IterativeRobot):
             self.shifter.set(0)
             self.driveSpeed = 0
 
+
     def LeftStationLeftSwitch(self):
         if (self.autoStage == 0):
             if (self.timer.get() < 2.34696):
                 self.drive.arcadeDrive(-0.75, 0.275)
             else:
                 self.autoStage += 1
+
         elif (self.autoStage == 1):
             turn = self.turnToAngle(90, "R")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 2):
             if (self.timer.get() > 5 and self.timer.get() < 5.70):
                 self.drive.arcadeDrive(-0.75, 0.275)
             elif (self.timer.get() > 5.56):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 3):
             print("TIME TO SHOOT")
+
 
     def LeftStationRightSwitch(self):
         if (self.autoStage == 0):
@@ -221,28 +237,34 @@ class Kylo(wpilib.IterativeRobot):
                 self.drive.arcadeDrive(-0.75, 0.275)
             else:
                 self.autoStage += 1
+
         elif (self.autoStage == 1):
             turn = self.turnToAngle(90, "R")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 2):
             if (self.timer.get() > 6 and self.timer.get() < 8.95640125):
                 self.drive.arcadeDrive(-0.75, 0.275)
             elif (self.timer.get() > 8.95640126):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 3):
             turn = self.turnToAngle(0, "R")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 4):
             if (self.timer.get() > 10 and self.timer.get() < 10.25):
-                self.drive.arcadeDrive(-0.75, 0.275)
+                self.drive.arcadeDrive(-0.75, 0.275)     
             elif (self.timer.get() > 10.26):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 5):
             print("TIME TO SHOOT")
+
 
     def CenterStationLeftSwitch(self):
         if (self.autoStage == 0):
@@ -250,28 +272,34 @@ class Kylo(wpilib.IterativeRobot):
                 self.drive.arcadeDrive(-0.75, 0.275)
             else:
                 self.autoStage += 1
+
         elif (self.autoStage == 1):
             turn = self.turnToAngle(40, "L")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 2):
             if (self.timer.get() > 3 and self.timer.get() < 3.70):
                 self.drive.arcadeDrive(-0.75, 0.275)
             elif (self.timer.get() > 3.56):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 3):
             turn = self.turnToAngle(0, "R")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 4):
             if (self.timer.get() > 6 and self.timer.get() < 6.25):
                 self.drive.arcadeDrive(-0.75, 0.275)
             elif (self.timer.get() > 6.26):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 5):
             print("TIME TO SHOOT")
+
 
     def CenterStationRightSwitch(self):
         if (self.autoStage == 0):
@@ -279,28 +307,34 @@ class Kylo(wpilib.IterativeRobot):
                 self.drive.arcadeDrive(-0.75, 0.275)
             else:
                 self.autoStage += 1
+
         elif (self.autoStage == 1):
             turn = self.turnToAngle(40, "R")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 2):
             if (self.timer.get() > 3 and self.timer.get() < 3.70):
                 self.drive.arcadeDrive(-0.75, 0.275)
             elif (self.timer.get() > 3.56):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 3):
             turn = self.turnToAngle(0, "L")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 4):
             if (self.timer.get() > 6 and self.timer.get() < 6.25):
                 self.drive.arcadeDrive(-0.75, 0.275)
             elif (self.timer.get() > 6.26):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 5):
             print("TIME TO SHOOT")
+
 
     def RightStationLeftSwitch(self):
         if (self.autoStage == 0):
@@ -308,28 +342,34 @@ class Kylo(wpilib.IterativeRobot):
                 self.drive.arcadeDrive(-0.75, 0.275)
             else:
                 self.autoStage += 1
+
         elif (self.autoStage == 1):
             turn = self.turnToAngle(90, "L")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 2):
             if (self.timer.get() > 6 and self.timer.get() < 8.95640125):
                 self.drive.arcadeDrive(-0.75, 0.275)
             elif (self.timer.get() > 8.95640126):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 3):
             turn = self.turnToAngle(0, "L")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 4):
             if (self.timer.get() > 10 and self.timer.get() < 10.25):
                 self.drive.arcadeDrive(-0.75, 0.275)
             elif (self.timer.get() > 10.26):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 5):
             print("TIME TO SHOOT")
+
 
     def RightStationRightSwitch(self):
         if (self.autoStage == 0):
@@ -337,18 +377,22 @@ class Kylo(wpilib.IterativeRobot):
                 self.drive.arcadeDrive(-0.75, 0.275)
             else:
                 self.autoStage += 1
+
         elif (self.autoStage == 1):
             turn = self.turnToAngle(90, "L")
             if (turn == True):
                 self.autoStage += 1
+
         elif (self.autoStage == 2):
             if (self.timer.get() > 5 and self.timer.get() < 5.70):
                 self.drive.arcadeDrive(-0.75, 0.275)
             elif (self.timer.get() > 5.56):
                 self.autoStage += 1
                 self.drive.arcadeDrive(0, 0)
+
         elif (self.autoStage == 3):
             print("TIME TO SHOOT")
+
 
     def EmergencyAuto(self):
         if (self.timer.get() < 2.72415):
@@ -356,8 +400,10 @@ class Kylo(wpilib.IterativeRobot):
         else:
             self.drive.arcadeDrive(0, 0)
 
+
     def DoNotMove(self):
         pass
+       
             
     def turnToAngle(self, angle, direction):
         # Turn 90 Degrees Code
