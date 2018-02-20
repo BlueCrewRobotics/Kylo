@@ -18,16 +18,22 @@ class RampMech:
     rampState = False
 
     def raiseRightRamp(self):
-        self.rightRamp.set(0.75)
+        self.rightRamp.set(0.85)
 
     def raiseLeftRamp(self):
-        self.leftRamp.set(0.75)
+        self.leftRamp.set(0.85)
     
     def lowerRightRamp(self):
         self.rightRamp.set(-0.75)
 
     def lowerLeftRamp(self):
         self.leftRamp.set(-0.75)
+        
+    def stopRight(self):
+        self.rightRamp.set(0)
+
+    def stopLeft(self):
+        self.leftRamp.set(0)
 
     def deployRamps(self):
         if (self.rampState == False):

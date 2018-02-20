@@ -7,6 +7,7 @@
 
 import wpilib
 import wpilib.drive
+import threading
 
 from wpilib.buttons import JoystickButton
 from magicbot import MagicRobot
@@ -15,6 +16,8 @@ from components.DriveTrain import DriveTrain
 from components.CubeMech import CubeMech
 from components.RampMech import RampMech
 
+from common.driveController import driveController
+from common.subsystemController import subsystemController
 from common.xbox import XboxController
 
 class Kylo(MagicRobot):
@@ -27,8 +30,8 @@ class Kylo(MagicRobot):
     def createObjects(self):
 
         # Define Driving Motors
-        self.rightDrive = wpilib.VictorSP(1)
-        self.leftDrive = wpilib.VictorSP(0)
+        self.rightDrive = wpilib.VictorSP(0)
+        self.leftDrive = wpilib.VictorSP(1)
 
         # Create Robot Drive
         self.robotDrive = wpilib.drive.DifferentialDrive(self.rightDrive, self.leftDrive)
@@ -47,7 +50,7 @@ class Kylo(MagicRobot):
         self.driveSpeed = 0
 
         # Intake Motors
-        self.intakeMotor = wpilib.VictorSP(2)
+        self.intakeMotor = wpilib.VictorSP(9)
 
         # Intake Lifter
         self.intakeLifter = wpilib.Spark(6)
@@ -65,64 +68,17 @@ class Kylo(MagicRobot):
         # Create Timer (For Making Timed Events)
         self.timer = wpilib.Timer()
 
-    def teleopPeriodic(self):
-
-        # --------- Start Drive Commands ----------
-
-        self.drivetrain.arcadeDrive(self.driveSpeed)
-
-        if (self.driveController.right_trigger()):
-            self.driveSpeed = self.driveJoystick.getRawAxis(3)
-        else:
-            self.driveSpeed = 0
-
-        if (self.driveController.left_trigger()):
-            self.driveSpeed = self.driveJoystick.getRawAxis(2) * -1
-        else:
-            self.driveSpeed = 0
-
-        if (self.driveController.right_bumper()):
-            self.drivetrain.shiftGear()
+    def teleopInit(self):
+        DriverController = driveController("DriveController", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
+        SubsystemController = subsystemController("SubsystemController", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
         
-        # --------- End Drive Commands ----------
+        DriverController.start()
+        SubsystemController.start()
+        print("Threads Should've started")
+        
 
-        # --------- Start Cube Commands ----------
-
-        if (self.subsystemController.b()):
-            self.cubemech.clampCube()
-
-        if (self.subsystemController.right_trigger()):
-            self.cubemech.liftArm()
-
-        if (self.subsystemController.left_trigger()):
-            self.cubemech.lowerArm()
-
-        if (self.subsystemController.right_bumper()):
-            self.cubemech.intakeCube()
-
-        if (self.subsystemController.left_bumper()):
-            self.cubemech.shootCube()
-
-        # --------- End Cube Commands ----------
-
-        # --------- Start Ramp Commands ----------
-
-        if (self.subsystemController.a() and self.subsystemController.y()):
-            self.rampmech.deployRamps()
-
-        if (self.subsystemController.a() and self.subsystemController.x()):
-            self.rampmech.raiseRightRamp()
-
-        if (self.subsystemController.a() and self.subsystemController.b()):
-            self.rampmech.lowerRightRamp()
-
-        if (self.driveController.a() and self.driveController.x()):
-            self.rampmech.raiseLeftRamp()
-
-        if (self.driveController.a() and self.driveController.b()):
-            self.rampmech.lowerLeftRamp()
-
-        # --------- End Ramp Commands ----------
+    def teleopPeriodic(self):
+        pass
 
 if __name__ == '__main__':
     wpilib.run(Kylo)

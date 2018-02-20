@@ -29,6 +29,10 @@ class CubeMech:
     def intakeCube(self):
         self.intakeMotor.set(0.5)
 
+    def stop(self):
+        self.intakeMotor.set(0)
+        self.intakeLifter.set(0)
+
     def clampCube(self):
         if (self.intakeState == False):
             self.intakeSolenoid.set(True)
