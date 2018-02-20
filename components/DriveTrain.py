@@ -18,7 +18,8 @@ class DriveTrain:
     rightDrive = wpilib.VictorSP
     leftDrive = wpilib.VictorSP
 
-    navx = navx.AHRS.create_spi()
+    navX = navx.AHRS
+    accel = wpilib.BuiltInAccelerometer
     
     shifterSolenoid = wpilib.DoubleSolenoid
 
@@ -53,7 +54,6 @@ class DriveTrain:
             self.sd.putString("Shift State", "High Gear")
 
     def turnToAngle(self, angle, direction):
-        # Turn 90 Degrees Code
 
         if (self.hasCompletedTurn == True):
             self.hasCompletedTurn = False
@@ -63,7 +63,7 @@ class DriveTrain:
         if(self.turnState == True):
             # Turn to Range of Degrees
             if (direction == "R"):
-                if (self.navx.getYaw() > angle):
+                if (self.navX.getYaw() > angle):
                     # Stop Driving
                     self.robotDrive.arcadeDrive(0, 0)
                     # Tell the Robot that it's Done Turning

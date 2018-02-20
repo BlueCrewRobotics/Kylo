@@ -11,6 +11,7 @@ import threading
 
 from wpilib.buttons import JoystickButton
 from magicbot import MagicRobot
+from robotpy_ext.common_drivers import navx
 
 from components.DriveTrain import DriveTrain
 from components.CubeMech import CubeMech
@@ -45,6 +46,10 @@ class Kylo(MagicRobot):
         
         self.subsystemJoystick = wpilib.Joystick(1)
         self.subsystemController = XboxController(1)
+
+        # Create NavX and Accel
+        self.navX = navx.AHRS.create_spi()
+        self.accel = wpilib.BuiltInAccelerometer()
 
         # Set Drivespeed
         self.driveSpeed = 0
