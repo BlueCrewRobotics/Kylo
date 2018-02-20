@@ -11,10 +11,6 @@ class Straight(AutonomousStateMachine):
     
     drive_speed = tunable(0.5)
 
-    @timed_state(duration=2, next_state='moveSecond', first=True)
+    @timed_state(duration=4, first=True)
     def moveForward(self):
-        print("STRAIGHT FIRST")
-
-    @timed_state(duration=2)
-    def moveSecond(self):
-        print("STRAIGHT SECOND")
+        print("MOVE FORWARD")

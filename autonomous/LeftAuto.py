@@ -5,9 +5,9 @@ from magicbot import AutonomousStateMachine, tunable, timed_state
 
 from components.DriveTrain import DriveTrain
                     
-class Center(AutonomousStateMachine):
+class Left(AutonomousStateMachine):
 
-    MODE_NAME = 'Center'
+    MODE_NAME = 'Left'
 
     def __init__(self):
 
@@ -37,13 +37,20 @@ class Center(AutonomousStateMachine):
     @timed_state(duration=2, next_state='stateFour')
     def stateThree(self):
         if (self.gameData == "L"):
-            print("MOVE FORWARD")
+            print("SHOOT")
         elif (self.gameData == "R"):
             print("MOVE FORWARD")
 
-    @timed_state(duration=2)
+    @timed_state(duration=2, next_state='stateFive')
     def stateFour(self):
         if (self.gameData == "L"):
-            print("SHOOT")
+            pass
+        elif (self.gameData == "R"):
+            print("TURN NINETY")
+
+    @timed_state(duration=2)
+    def stateFive(self):
+        if (self.gameData == "L"):
+            pass
         elif (self.gameData == "R"):
             print("SHOOT")
