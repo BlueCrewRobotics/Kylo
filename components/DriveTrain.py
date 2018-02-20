@@ -39,15 +39,12 @@ class DriveTrain:
         self.robotDrive.arcadeDrive(0.75, 0.25)
     
     def shiftGear(self):
-        self.shifterSolenoid.set(1)
-        # if (self.shiftState == False):
-        #     self.shifterSolenoid.set(1)
-        #     self.shiftState = True
-        #     self.timer.delay(0.5)
-        # elif (self.shiftState == True):
-        #     self.shifterSolenoid.set(2)
-        #     self.shiftState = False
-        #     self.timer.delay(0.5)
+        if (self.shiftState == False):
+            self.shifterSolenoid.set(1)
+            self.shiftState = True
+        elif (self.shiftState == True):
+            self.shifterSolenoid.set(2)
+            self.shiftState = False
 
     def turnToAngle(self, angle, direction):
         # Turn 90 Degrees Code

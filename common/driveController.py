@@ -15,9 +15,9 @@ class driveController (threading.Thread):
         self.cubemech = cube
         self.ramp = ramp
         self.driveSpeed = 0
-        
 
-    def run(self):        
+    def run(self):
+
         while True:
 
             time.sleep(self.delay)

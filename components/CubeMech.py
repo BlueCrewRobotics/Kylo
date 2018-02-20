@@ -13,6 +13,8 @@ class CubeMech:
     
     intakeSolenoid = wpilib.Solenoid
 
+    compressor = wpilib.Compressor
+
     timer = wpilib.Timer
 
     intakeState = False
@@ -37,11 +39,15 @@ class CubeMech:
         if (self.intakeState == False):
             self.intakeSolenoid.set(True)
             self.intakeState = True
-            self.timer.delay(0.5)
         elif (self.intakeState == True):
             self.intakeSolenoid.set(False)
             self.intakeState = False
-            self.timer.delay(0.5)
+
+    def startPressurize(self):
+        self.compressor.start()
+
+    def stopPressurize(self):
+        self.compressor.stop()
 
     def execute(self):
         pass

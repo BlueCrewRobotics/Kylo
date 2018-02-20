@@ -68,17 +68,28 @@ class Kylo(MagicRobot):
         # Create Timer (For Making Timed Events)
         self.timer = wpilib.Timer()
 
+        # Initialize Compressor
+        self.compressor = wpilib.Compressor()
+
+        # Create CameraServer
+        wpilib.CameraServer.launch("common/multipleCameras.py")
+
     def teleopInit(self):
         DriverController = driveController("DriveController", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
         SubsystemController = subsystemController("SubsystemController", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
         
         DriverController.start()
         SubsystemController.start()
-        print("Threads Should've started")
         
+        self.timer.reset()
+        self.timer.start()
 
     def teleopPeriodic(self):
-        pass
+        # Rumble Controller
+        if (self.timer.get() > 110 and self.timer.get() < 120):
+            self.driveController.rumble(1, 1)
+        else:
+            self.driveController.rumble(0, 0)
 
 if __name__ == '__main__':
     wpilib.run(Kylo)

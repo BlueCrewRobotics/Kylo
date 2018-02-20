@@ -39,11 +39,9 @@ class RampMech:
         if (self.rampState == False):
             self.rampSolenoid.set(True)
             self.rampState = True
-            self.timer.delay(0.5)
         elif (self.rampState == True):
             self.rampSolenoid.set(False)
             self.rampState = False
-            self.timer.delay(0.5)
 
     def execute(self):
         pass
