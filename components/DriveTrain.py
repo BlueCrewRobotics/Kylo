@@ -7,6 +7,8 @@ Drive Mechanisms
 import wpilib
 import wpilib.drive
 
+from networktables import NetworkTables
+
 from robotpy_ext.common_drivers import navx
 
 class DriveTrain:
@@ -32,6 +34,8 @@ class DriveTrain:
     initialAcceleration = []
     distances = []
 
+    sd = NetworkTables.getTable('SmartDashboard')
+
     def arcadeDrive(self, speed):        
         self.robotDrive.arcadeDrive(speed / 1.25, (self.driveJoystick.getX() * -1) / 1.25)
     
@@ -42,9 +46,11 @@ class DriveTrain:
         if (self.shiftState == False):
             self.shifterSolenoid.set(1)
             self.shiftState = True
+            self.sd.putString("Shift State", "Low Gear")
         elif (self.shiftState == True):
             self.shifterSolenoid.set(2)
             self.shiftState = False
+            self.sd.putString("Shift State", "High Gear")
 
     def turnToAngle(self, angle, direction):
         # Turn 90 Degrees Code

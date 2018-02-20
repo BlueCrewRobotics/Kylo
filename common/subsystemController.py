@@ -18,9 +18,10 @@ class subsystemController (threading.Thread):
             
             time.sleep(self.delay)
 
-            if (self.controller.b()):
+            if (self.subsystemController.b()):
+                print("HELP")
                 self.cubemech.clampCube()
-            elif (self.controller.x()):
+            elif (self.subsystemController.x()):
                 self.cubemech.startPressurize()
             elif (self.subsystemController.right_bumper()):
                 self.cubemech.intakeCube()

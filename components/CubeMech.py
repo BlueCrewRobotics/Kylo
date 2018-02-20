@@ -39,9 +39,11 @@ class CubeMech:
         if (self.intakeState == False):
             self.intakeSolenoid.set(True)
             self.intakeState = True
+            wpilib.SmartDashboard.putString("Cube State", "Unclamped")
         elif (self.intakeState == True):
             self.intakeSolenoid.set(False)
             self.intakeState = False
+            wpilib.SmartDashboard.putString("Cube State", "Clamped")
 
     def startPressurize(self):
         self.compressor.start()

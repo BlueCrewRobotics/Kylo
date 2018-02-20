@@ -72,7 +72,11 @@ class Kylo(MagicRobot):
         self.compressor = wpilib.Compressor()
 
         # Create CameraServer
-        wpilib.CameraServer.launch("common/multipleCameras.py")
+        wpilib.CameraServer.launch("common/multipleCameras.py:main")
+
+        # Set Gear in Dashboard
+        wpilib.SmartDashboard.putString("Shift State", "Low Gear")
+        wpilib.SmartDashboard.putString("Cube State", "Unclamped")
 
     def teleopInit(self):
         DriverController = driveController("DriveController", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
