@@ -18,12 +18,7 @@ class subsystemController (threading.Thread):
             
             time.sleep(self.delay)
 
-            if (self.subsystemController.b()):
-                print("HELP")
-                self.cubemech.clampCube()
-            elif (self.subsystemController.x()):
-                self.cubemech.startPressurize()
-            elif (self.subsystemController.right_bumper()):
+            if (self.subsystemController.right_bumper()):
                 self.cubemech.intakeCube()
             elif (self.subsystemController.left_bumper()):
                 self.cubemech.shootCube()
@@ -31,12 +26,16 @@ class subsystemController (threading.Thread):
                 self.cubemech.liftArm()
             elif (self.subsystemController.left_trigger()):
                 self.cubemech.lowerArm()
-            elif (self.subsystemController.a() and self.subsystemController.x()):
+            elif (self.subsystemController.a() and self.subsystemController.y()):
                 self.ramp.deployRamps()
             elif (self.subsystemController.a() and self.subsystemController.x()):
                 self.ramp.raiseRightRamp()
             elif (self.subsystemController.a() and self.subsystemController.b()):
                 self.ramp.lowerRightRamp()
+            elif (self.subsystemController.b()):
+                self.cubemech.clampCube()
+            elif (self.subsystemController.x()):
+                self.cubemech.startPressurize()
             else:
                 self.cubemech.stop()
                 self.ramp.stopRight()

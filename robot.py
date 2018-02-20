@@ -55,7 +55,7 @@ class Kylo(MagicRobot):
         self.driveSpeed = 0
 
         # Intake Motors
-        self.intakeMotor = wpilib.VictorSP(9)
+        self.intakeMotor = wpilib.VictorSP(2)
 
         # Intake Lifter
         self.intakeLifter = wpilib.Spark(6)
