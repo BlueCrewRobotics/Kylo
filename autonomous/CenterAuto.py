@@ -20,12 +20,16 @@ class Center(AutonomousStateMachine):
         except IndexError:
             self.gameData = "UNKNOWN"
 
-    @timed_state(duration=2, next_state='stateTwo', first=True)
+    @timed_state(duration=2, next_state='stopDrive', first=True)
     def stateOne(self):
         if (self.gameData == "L"):
-            print("MOVE FORWARD")
+            self.drivetrain.arcadeDrive(0.35)
         elif (self.gameData == "R"):
             print("MOVE FORWARD")
+
+    @timed_state(duration=1)
+    def stopDrive(self):
+        self.drivetrain.arcadeDrive(0)
 
     @timed_state(duration=2, next_state='stateThree')
     def stateTwo(self):

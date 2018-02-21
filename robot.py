@@ -94,8 +94,11 @@ class Kylo(MagicRobot):
         self.timer.start()
 
     def teleopPeriodic(self):
+
+        self.compressor.start()
+
         # Rumble Controller
-        if (self.timer.get() > 110 and self.timer.get() < 120):
+        if (self.timer.get() > 85 and self.timer.get() < 105):
             self.driveController.rumble(1, 1)
         else:
             self.driveController.rumble(0, 0)
