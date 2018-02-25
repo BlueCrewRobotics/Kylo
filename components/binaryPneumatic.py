@@ -1,3 +1,11 @@
+'''
+
+ -- Binary Pnuematics --
+
+Blue Crew Robotics Team 6153
+Authors: Jacob Mealey, Matthew Gallant
+
+'''
 import wpilib
 
 class BinaryPneuamtic:

@@ -1,6 +1,9 @@
 '''
 
-Ramp Mechanisms
+ -- Ramp Mechanisms --
+ 
+Blue Crew Robotics Team 6153
+Authors: Matthew Gallant, Jacob Mealey
 
 '''
 

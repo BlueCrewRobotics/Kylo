@@ -1,6 +1,9 @@
 '''
 
-Drive Mechanisms
+ -- Drive Train --
+
+Blue Crew Robotics Team 6153
+Authors: Matthew Gallant, Jacob Mealey
 
 '''
 
