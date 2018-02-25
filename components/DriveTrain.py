@@ -10,6 +10,7 @@ import wpilib.drive
 from networktables import NetworkTables
 
 from robotpy_ext.common_drivers import navx
+from components.binaryPneumatic import BinaryPneuamtic
 
 class DriveTrain:
 
@@ -22,6 +23,7 @@ class DriveTrain:
     accel = wpilib.BuiltInAccelerometer
     
     shifterSolenoid = wpilib.DoubleSolenoid
+    pnuematic = BinaryPneuamtic(shifterSolenoid, "Shifter")
 
     timer = wpilib.Timer
 
@@ -44,14 +46,15 @@ class DriveTrain:
         self.robotDrive.arcadeDrive(0.75, 0.25)
     
     def shiftGear(self):
-        if (self.shiftState == False):
-            self.shifterSolenoid.set(1)
-            self.shiftState = True
-            self.sd.putString("Shift State", "Low Gear")
-        elif (self.shiftState == True):
-            self.shifterSolenoid.set(2)
-            self.shiftState = False
-            self.sd.putString("Shift State", "High Gear")
+        # if (self.shiftState == False):
+        #     self.shifterSolenoid.set(1)
+        #     self.shiftState = True
+        #     self.sd.putString("Shift State", "Low Gear")
+        # elif (self.shiftState == True):
+        #     self.shifterSolenoid.set(2)
+        #     self.shiftState = False
+        #     self.sd.putString("Shift State", "High Gear")
+        self.pnuematic.switch()
 
     def turnToAngle(self, angle, direction):
 
