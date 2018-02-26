@@ -1,3 +1,12 @@
+'''
+
+ -- Driver Controller System --
+
+Blue Crew Robotics Team 6153
+Authors: Jacob Mealey, Matthew Gallant
+
+'''
+
 import threading
 import time
 import wpilib

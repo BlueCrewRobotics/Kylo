@@ -1,3 +1,12 @@
+'''
+
+ -- Multi Camera --
+
+Blue Crew Robotics Team 6153
+Authors: Jacob Mealey, Matthew Gallant
+
+'''
+
 from cscore import CameraServer
 
 def main():
