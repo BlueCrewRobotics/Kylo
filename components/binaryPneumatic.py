@@ -8,7 +8,7 @@ Authors: Jacob Mealey, Matthew Gallant
 '''
 import wpilib
 
-class BinaryPneuamtic:
+class BinaryPneumatic:
 
     state = False
     

@@ -8,7 +8,7 @@ Authors: Matthew Gallant, Jacob Mealey
 '''
 
 import wpilib
-from components.BinaryPneumatic import BinaryPneuamtic
+from components.binaryPneumatic import BinaryPneumatic
 
 class CubeMech:
 
@@ -23,7 +23,7 @@ class CubeMech:
 
     intakeState = False
 
-    pneumatics = BinaryPneuamtic(intakeSolenoid, "CubeMech")
+    pneumatics = BinaryPneumatic(intakeSolenoid, "CubeMech")
 
     def liftArm(self):
         self.intakeLifter.set(-1.0)

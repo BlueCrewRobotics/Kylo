@@ -13,7 +13,7 @@ import wpilib.drive
 from networktables import NetworkTables
 
 from robotpy_ext.common_drivers import navx
-from components.binaryPneumatic import BinaryPneuamtic
+from components.binaryPneumatic import BinaryPneumatic
 
 class DriveTrain:
 
@@ -26,7 +26,7 @@ class DriveTrain:
     accel = wpilib.BuiltInAccelerometer
     
     shifterSolenoid = wpilib.DoubleSolenoid
-    pnuematic = BinaryPneuamtic(shifterSolenoid, "Shifter")
+    pnuematic = BinaryPneumatic(shifterSolenoid, "Shifter")
 
     timer = wpilib.Timer
 

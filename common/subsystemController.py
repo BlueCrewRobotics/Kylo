@@ -11,6 +11,7 @@ import threading
 import time
 import wpilib
 import wpilib.drive
+from common.subsystemButtons.intakeControls import intakeControls
 
 class subsystemController (threading.Thread):
 
@@ -21,17 +22,18 @@ class subsystemController (threading.Thread):
         self.delay = delay
         self.cubemech = cube
         self.ramp = ramp
+        self.intake = intakeControls(cube, controller, joystick, delay)
 
     def run(self):
         while True:
             
             time.sleep(self.delay)
-
-            if (self.subsystemController.right_bumper()):
-                self.cubemech.intakeCube()
-            elif (self.subsystemController.left_bumper()):
-                self.cubemech.shootCube()
-            elif (self.subsystemController.right_trigger()):
+            self.intake.run()
+            # if (self.subsystemController.right_bumper()):
+            #     self.cubemech.intakeCube()
+            # elif (self.subsystemController.left_bumper()):
+            #     self.cubemech.shootCube()
+            if (self.subsystemController.right_trigger()):
                 self.cubemech.liftArm()
             elif (self.subsystemController.left_trigger()):
                 self.cubemech.lowerArm()
