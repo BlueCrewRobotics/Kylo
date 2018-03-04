@@ -13,4 +13,4 @@ class Straight(AutonomousStateMachine):
 
     @timed_state(duration=3.5, first=True)
     def moveForward(self):
-        self.drivetrain.arcadeDrive(1.0)
+        self.drivetrain.arcadeDrive(1.0, 0)
