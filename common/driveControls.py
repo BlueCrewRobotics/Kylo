@@ -12,7 +12,7 @@ import time
 import wpilib
 import wpilib.drive
 
-class driveController (threading.Thread):
+class driveControls (threading.Thread):
     
     def __init__(self, name, driveController, drivetrain, cube, ramp, joystick, delay):
         threading.Thread.__init__(self)
@@ -31,30 +31,19 @@ class driveController (threading.Thread):
         while True:
 
             time.sleep(self.delay)
-
-            if (self.driveController.right_bumper()):
-                self.drivetrain.shiftGear()
-            elif (self.driveController.y() and self.joystick.getX() > 0):
-                print("WELP")
+            
+            if (self.driveController.y() and self.joystick.getX() > 0):
                 self.turnSpeed = self.joystick.getX() / 2
             elif (self.driveController.y() and self.joystick.getX() < 0):
                 self.turnSpeed = self.joystick.getX() / 2
             elif (self.driveController.y() and self.driveController.left_trigger()):
                 self.driveSpeed = (self.joystick.getRawAxis(2) * -1) / 2
-                print("MULTI")
             elif (self.driveController.y() and self.driveController.right_trigger()):
                 self.driveSpeed = self.joystick.getRawAxis(3) / 2
-                print("MULTI")
             elif (self.driveController.left_trigger()):
-                print("SINGLE")
                 self.driveSpeed = self.joystick.getRawAxis(2) * -1
             elif (self.driveController.right_trigger()):
-                print("SINGLE")
                 self.driveSpeed = self.joystick.getRawAxis(3)
-            elif (self.driveController.a() and self.driveController.x()):
-                self.ramp.raiseLeftRamp()
-            elif (self.driveController.a() and self.driveController.b()):
-                self.ramp.lowerLeftRamp()
             else:
                 self.driveSpeed = 0
                 self.ramp.stopLeft()

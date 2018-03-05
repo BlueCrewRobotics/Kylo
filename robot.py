@@ -17,8 +17,12 @@ from components.DriveTrain import DriveTrain
 from components.CubeMech import CubeMech
 from components.RampMech import RampMech
 
-from common.driveController import driveController
-from common.subsystemController import subsystemController
+from common.driveControls import driveControls
+from common.armMech import armMech
+from common.shootMech import shootMech
+from common.subsystemAux import subsystemAux
+from common.driveAux import driveAux
+
 from common.xbox import XboxController
 
 class Kylo(MagicRobot):
@@ -84,11 +88,21 @@ class Kylo(MagicRobot):
         wpilib.SmartDashboard.putString("Cube State", "Unclamped")
 
     def teleopInit(self):
-        DriverController = driveController("DriveController", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
-        SubsystemController = subsystemController("SubsystemController", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
-        
+
+        # -- Drive Controls Init --
+        DriverController = driveControls("DriveController", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
+        DriveAux = driveAux("DriveAux", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
+
+        # -- Subsystem Controls Init --
+        ArmMech = armMech("ArmMech", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
+        ShootMech = shootMech("ShootMech", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
+        SubsystemAux = subsystemAux("SubsystemAux", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
+       
+        ArmMech.start()
+        ShootMech.start()
+        SubsystemAux.start()
+        DriveAux.start()
         DriverController.start()
-        SubsystemController.start()
         
         self.timer.reset()
         self.timer.start()
