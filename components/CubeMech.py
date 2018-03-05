@@ -8,7 +8,6 @@ Authors: Matthew Gallant, Jacob Mealey
 '''
 
 import wpilib
-from components.binaryPneumatic import BinaryPneumatic
 
 class CubeMech:
 
@@ -22,8 +21,6 @@ class CubeMech:
     timer = wpilib.Timer
 
     intakeState = False
-
-    pneumatics = BinaryPneumatic(intakeSolenoid, "CubeMech")
 
     def liftArm(self):
         self.intakeLifter.set(-1.0)
@@ -42,15 +39,14 @@ class CubeMech:
         self.intakeLifter.set(0)
 
     def clampCube(self):
-        # if (self.intakeState == False):
-        #     self.intakeSolenoid.set(True)
-        #     self.intakeState = True
-        #     wpilib.SmartDashboard.putString("Cube State", "Unclamped")
-        # elif (self.intakeState == True):
-        #     self.intakeSolenoid.set(False)
-        #     self.intakeState = False
-        #     wpilib.SmartDashboard.putString("Cube State", "Clamped")
-        self.pneumatics.switch()
+        if (self.intakeState == False):
+            self.intakeSolenoid.set(True)
+            self.intakeState = True
+            wpilib.SmartDashboard.putString("Cube State", "Unclamped")
+        elif (self.intakeState == True):
+            self.intakeSolenoid.set(False)
+            self.intakeState = False
+            wpilib.SmartDashboard.putString("Cube State", "Clamped")
 
     def startPressurize(self):
         self.compressor.start()

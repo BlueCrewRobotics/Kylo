@@ -27,16 +27,16 @@ class subsystemAux (threading.Thread):
             time.sleep(self.delay)
 
             if (self.subsystemController.a() and self.subsystemController.y()):
-                print("deploy ramps")
+                print("Deploy Ramps")
                 self.ramp.deployRamps()
             elif (self.subsystemController.a() and self.subsystemController.x()):
-                print("raise right ramp")
+                print("Raise Right Ramp")
                 self.ramp.raiseRightRamp()
             elif (self.subsystemController.a() and self.subsystemController.b()):
-                print("lower right ramp")
+                print("Lower Right Ramp")
                 self.ramp.lowerRightRamp()
             elif (self.subsystemController.b()):
-                print("clamp baby")
+                print("Clamp Cube")
                 self.cubemech.clampCube()
             else:
                 self.ramp.stopRight()
