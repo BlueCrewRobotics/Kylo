@@ -29,9 +29,9 @@ class armMech (threading.Thread):
 
             if (self.subsystemController.right_trigger()):
                 self.cubemech.liftArm()
-                print("RIGHT TRIGGER")
+                print("Lift Arm")
             elif (self.subsystemController.left_trigger()):
                 self.cubemech.lowerArm()
-                print("LEFT TRIGGER")
+                print("Lower Arm")
             else:
                 self.cubemech.stop()

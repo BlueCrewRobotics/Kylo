@@ -29,6 +29,7 @@ class subsystemAux (threading.Thread):
             if (self.subsystemController.a() and self.subsystemController.y()):
                 print("Deploy Ramps")
                 self.ramp.deployRamps()
+                time.sleep(0.5)
             elif (self.subsystemController.a() and self.subsystemController.x()):
                 print("Raise Right Ramp")
                 self.ramp.raiseRightRamp()
@@ -38,5 +39,6 @@ class subsystemAux (threading.Thread):
             elif (self.subsystemController.b()):
                 print("Clamp Cube")
                 self.cubemech.clampCube()
+                time.sleep(0.5)
             else:
                 self.ramp.stopRight()

@@ -30,6 +30,7 @@ class driveAux (threading.Thread):
             if(self.driveController.right_bumper()):
                 print("Shift")
                 self.drivetrain.shiftGear()
+                time.sleep(0.5)
             elif (self.driveController.a() and self.driveController.x()):
                 print("Raise Left Ramp")
                 self.ramp.raiseLeftRamp()
