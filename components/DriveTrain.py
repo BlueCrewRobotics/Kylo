@@ -67,10 +67,12 @@ class DriveTrain:
             # Turn to Range of Degrees
             if (direction == "R"):
                 if (self.navX.getYaw() > angle):
+                    print(self.navX.getYaw())
                     # Stop Driving
                     self.robotDrive.arcadeDrive(0, 0)
                     # Tell the Robot that it's Done Turning
                     self.turnState = False
+                    self.navX.reset()
                     self.hasCompletedTurn = True
                     return True
                 else:
@@ -83,6 +85,7 @@ class DriveTrain:
                     self.robotDrive.arcadeDrive(0, 0)
                     # Tell the Robot that it's Done Turning
                     self.turnState = False
+                    self.navX.reset()
                     self.hasCompletedTurn = True
                     return True
                 else:

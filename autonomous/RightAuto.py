@@ -4,6 +4,7 @@ import wpilib
 from magicbot import AutonomousStateMachine, tunable, timed_state
 
 from components.DriveTrain import DriveTrain
+from components.CubeMech import CubeMech
                     
 class Right(AutonomousStateMachine):
 
@@ -12,6 +13,7 @@ class Right(AutonomousStateMachine):
     def __init__(self):
 
         self.drivetrain = DriveTrain
+        self.cubemech = CubeMech
 
         self.driverStation = wpilib.DriverStation.getInstance()
 
@@ -22,35 +24,31 @@ class Right(AutonomousStateMachine):
 
     @timed_state(duration=2, next_state='stateTwo', first=True)
     def stateOne(self):
-        if (self.gameData == "L"):
-            print("MOVE FORWARD")
-        elif (self.gameData == "R"):
-            print("MOVE FORWARD")
+        pass
 
     @timed_state(duration=2, next_state='stateThree')
     def stateTwo(self):
         if (self.gameData == "L"):
-            print("TURN NINETY")
+            print("MOVE FORWARD")
+            self.drivetrain.arcadeDrive(0.5, 0)
         elif (self.gameData == "R"):
-            print("TURN NINETY")
+            print("SHOOT")
+
 
     @timed_state(duration=2, next_state='stateFour')
     def stateThree(self):
         if (self.gameData == "L"):
-            print("MOVE FORWARD")
+            print("Turn")
+            self.drivetrain.turnToAngle(85.5, 0)
         elif (self.gameData == "R"):
-            print("SHOOT")
-
-    @timed_state(duration=2, next_state='stateFive')
-    def stateFour(self):
-        if (self.gameData == "L"):
-            print("TURN NINETY")
-        elif (self.gameData == "R"):
-            pass
+           print("SHOOT")
 
     @timed_state(duration=2)
-    def stateFive(self):
+    def stateFour(self):
         if (self.gameData == "L"):
-            print("SHOOT")
+            self.drivetrain.arcadeDrive(-0.5, 0)
         elif (self.gameData == "R"):
             pass
+
+        
+    
