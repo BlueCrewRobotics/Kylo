@@ -11,6 +11,10 @@ class Straight(AutonomousStateMachine):
     
     drive_speed = tunable(0.5)
 
-    @timed_state(duration=3.5, first=True)
+    @timed_state(duration=7, next_state='moveForward', first=True)
+    def dontMove(self):
+        self.drivetrain.arcadeDrive(1.0, 0)
+
+    @timed_state(duration=3.5)
     def moveForward(self):
         self.drivetrain.arcadeDrive(1.0, 0)
