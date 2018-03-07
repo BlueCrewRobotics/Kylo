@@ -39,6 +39,7 @@ class subsystemAux (threading.Thread):
             elif (self.subsystemController.b()):
                 print("Clamp Cube")
                 self.cubemech.clampCube()
-                time.sleep(0.5)
+                
             else:
                 self.ramp.stopRight()
+                self.cubemech.stopClampCube()

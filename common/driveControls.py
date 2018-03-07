@@ -33,20 +33,20 @@ class driveControls (threading.Thread):
             time.sleep(self.delay)
             
             if (self.driveController.y() and self.joystick.getX() > 0):
-                self.turnSpeed = self.joystick.getX() / 2
+                self.turnSpeed = self.joystick.getX() / 1.75
             elif (self.driveController.y() and self.joystick.getX() < 0):
-                self.turnSpeed = self.joystick.getX() / 2
+                self.turnSpeed = self.joystick.getX() / 1.75
             elif (self.driveController.y() and self.driveController.left_trigger()):
-                self.driveSpeed = (self.joystick.getRawAxis(2) * -1) / 2
+                self.driveSpeed = (self.joystick.getRawAxis(2) * -1) / 1.75 
             elif (self.driveController.y() and self.driveController.right_trigger()):
-                self.driveSpeed = self.joystick.getRawAxis(3) / 2
+                self.driveSpeed = self.joystick.getRawAxis(3) / 1.75
             elif (self.driveController.left_trigger()):
-                self.driveSpeed = self.joystick.getRawAxis(2) * -1
+                self.driveSpeed = self.joystick.getRawAxis(2) * -0.8
             elif (self.driveController.right_trigger()):
-                self.driveSpeed = self.joystick.getRawAxis(3)
+                self.driveSpeed = self.joystick.getRawAxis(3) * 0.8
             else:
                 self.driveSpeed = 0
                 self.ramp.stopLeft()
-                self.turnSpeed = self.joystick.getX()
+                self.turnSpeed = self.joystick.getX() * 0.8
             
             self.drivetrain.arcadeDrive(self.driveSpeed, self.turnSpeed)
