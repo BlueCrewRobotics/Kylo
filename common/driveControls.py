@@ -42,8 +42,10 @@ class driveControls (threading.Thread):
                 self.driveSpeed = self.joystick.getRawAxis(3) / 1.75
             elif (self.driveController.left_trigger()):
                 self.driveSpeed = self.joystick.getRawAxis(2) * -0.8
+                self.turnSpeed = 0
             elif (self.driveController.right_trigger()):
                 self.driveSpeed = self.joystick.getRawAxis(3) * 0.8
+                self.turnSpeed = 0
             else:
                 self.driveSpeed = 0
                 self.ramp.stopLeft()
