@@ -27,11 +27,14 @@ class shootMech (threading.Thread):
             
             time.sleep(self.delay)
 
-            if (self.subsystemController.right_bumper()):
+            while (self.subsystemController.right_bumper()):
                 self.cubemech.intakeCube()
                 print("Intake")
-            elif (self.subsystemController.left_bumper()):
+                if (self.subsystemController.right_bumper() == False):
+                    break
+            while (self.subsystemController.left_bumper()):
                 self.cubemech.shootCube()
                 print("Shoot")
-            else:
-                self.cubemech.stop()
+                if (self.subsystemController.left_bumper() == False):
+                    break
+

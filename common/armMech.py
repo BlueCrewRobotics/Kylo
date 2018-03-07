@@ -27,11 +27,19 @@ class armMech (threading.Thread):
             
             time.sleep(self.delay)
 
-            if (self.subsystemController.right_trigger()):
+            while (self.subsystemController.right_trigger()):
                 self.cubemech.liftArm()
                 print("Lift Arm")
-            elif (self.subsystemController.left_trigger()):
+                if(self.subsystemController.right_trigger() == False):
+                    break
+            while (self.subsystemController.left_trigger()):
                 self.cubemech.lowerArm()
                 print("Lower Arm")
+                if(self.subsystemController.left_trigger() == False):
+                    break
+            if (self.subsystemController.b()):
+                print("Clamp Cube")
+                self.cubemech.clampCube()
+                time.sleep(0.5)
             else:
                 self.cubemech.stop()

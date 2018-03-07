@@ -31,11 +31,11 @@ class driveAux (threading.Thread):
                 print("Shift")
                 self.drivetrain.shiftGear()
                 time.sleep(0.5)
-            elif (self.driveController.a() and self.driveController.x()):
-                print("Raise Left Ramp")
-                self.ramp.raiseLeftRamp()
-            elif (self.driveController.a() and self.driveController.b()):
-                print("Lower Left Ramp")
-                self.ramp.lowerLeftRamp()
             else:
                 self.ramp.stopLeft()
+            while (self.driveController.a() and self.driveController.x()):
+                print("Raise Left Ramp")
+                self.ramp.raiseLeftRamp()
+            while(self.driveController.a() and self.driveController.b()):
+                print("Lower Left Ramp")
+                self.ramp.lowerLeftRamp()
