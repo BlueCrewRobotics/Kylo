@@ -89,26 +89,31 @@ class Kylo(MagicRobot):
 
     def teleopInit(self):
 
-        # -- Drive Controls Init --
+        # Init Drive Controls
         DriverController = driveControls("DriveController", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
         DriveAux = driveAux("DriveAux", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
 
-        # -- Subsystem Controls Init --
+        # Init Subsystem Controls
         ArmMech = armMech("ArmMech", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
         ShootMech = shootMech("ShootMech", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
         SubsystemAux = subsystemAux("SubsystemAux", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
        
+        # Start Drive Controls
         DriveAux.start()
         DriverController.start()
+
+        # Start Subsystem Controls
         ArmMech.start()
         ShootMech.start()
         SubsystemAux.start()
         
+        # Start and Reset Timer
         self.timer.reset()
         self.timer.start()
 
     def teleopPeriodic(self):
 
+        # Pressurize Throughout Teleop
         self.compressor.start()
 
         # Rumble Controller

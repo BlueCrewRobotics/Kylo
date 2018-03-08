@@ -79,7 +79,6 @@ class Left(AutonomousStateMachine):
             # Just Pass
             pass
 
-
     @timed_state(duration=3.25)
     def stateSix(self):
         # Pressurize Pneumatics
