@@ -98,11 +98,11 @@ class Kylo(MagicRobot):
         ShootMech = shootMech("ShootMech", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
         SubsystemAux = subsystemAux("SubsystemAux", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
        
+        DriveAux.start()
+        DriverController.start()
         ArmMech.start()
         ShootMech.start()
         SubsystemAux.start()
-        DriveAux.start()
-        DriverController.start()
         
         self.timer.reset()
         self.timer.start()
