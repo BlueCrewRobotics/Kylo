@@ -19,6 +19,7 @@ def main():
     usb1.setFPS(10)
     usb2.setFPS(10)
 
-    usb1.
+    usb1.setResolution(400, 300)
+    usb2.setResolution(400, 300)
 
     cs.waitForever()
