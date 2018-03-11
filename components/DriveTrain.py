@@ -22,6 +22,7 @@ class DriveTrain:
     leftDrive = wpilib.VictorSP
 
     navX = navx.AHRS
+
     accel = wpilib.BuiltInAccelerometer
     
     shifterSolenoid = wpilib.DoubleSolenoid
@@ -33,6 +34,8 @@ class DriveTrain:
     hasCompletedTurn = False
     turnState = True
 
+    navXState = False
+
     hasMovedDistance = False
     autoDistanceTiming = 0
     initialAcceleration = []
@@ -40,11 +43,11 @@ class DriveTrain:
 
     sd = NetworkTables.getTable('SmartDashboard')
 
-    def arcadeDrive(self, ySpeed, xSpeed):        
-        self.robotDrive.arcadeDrive(ySpeed / 1.25, (xSpeed * -1) / 1.25)
+    def arcadeDrive(self, ySpeed, xSpeed):    
+        self.robotDrive.arcadeDrive(ySpeed / 1.25, (xSpeed * -1) / 1.25, True)
     
     def driveStraight(self):        
-        self.robotDrive.arcadeDrive(0.75, 0.25)
+        self.robotDrive.arcadeDrive(0.75, 0.4)
     
     def shiftGear(self):
         if (self.shiftState == False):
@@ -56,42 +59,50 @@ class DriveTrain:
             self.shiftState = False
             self.sd.putString("Shift State", "High Gear")
 
-    def turnToAngle(self, angle, direction):
+    def turnToAngleRight(self, angle):
 
-        if (self.hasCompletedTurn == True):
-            self.hasCompletedTurn = False
-            self.turnState = True
+        if (self.navXState == False):
+            self.navX.reset()
+            self.navXState = True
 
         # While Not at 90 Degrees, Keep Turning
         if(self.turnState == True):
             # Turn to Range of Degrees
-            if (direction == "R"):
-                if (self.navX.getYaw() > angle):
-                    print(self.navX.getYaw())
-                    # Stop Driving
-                    self.robotDrive.arcadeDrive(0, 0)
-                    # Tell the Robot that it's Done Turning
-                    self.turnState = False
-                    self.navX.reset()
-                    self.hasCompletedTurn = True
-                    return True
-                else:
-                    # Turn the Robot
-                    self.robotDrive.arcadeDrive(0, 0.4)
-                    self.turnState = True
-            elif (direction == "L"):
-                if (self.navx.getYaw() < angle * -1):
-                    # Stop Driving
-                    self.robotDrive.arcadeDrive(0, 0)
-                    # Tell the Robot that it's Done Turning
-                    self.turnState = False
-                    self.navX.reset()
-                    self.hasCompletedTurn = True
-                    return True
-                else:
-                    # Turn the Robot
-                    self.robotDrive.arcadeDrive(0, -0.4)
-                    self.turnState = True
+            print(self.navX.getYaw())
+            if (self.navX.getYaw() < angle * -1):
+                # Stop Driving
+                self.robotDrive.arcadeDrive(0, 0)
+                # Tell the Robot that it's Done Turning
+                self.turnState = False
+                self.navX.reset()
+                self.hasCompletedTurn = True
+                return True
+            else:
+                # Turn the Robot
+                self.robotDrive.arcadeDrive(0, 0.45)
+                self.turnState = True
+
+    def turnToAngleLeft(self, angle):
+
+        if (self.navXState == False):
+            self.navX.reset()
+            self.navXState = True
+
+        # While Not at 90 Degrees, Keep Turning
+        if(self.turnState == True):
+            print(self.navX.getYaw())
+            if (self.navX.getYaw() > angle):
+                # Stop Driving
+                self.robotDrive.arcadeDrive(0, 0)
+                # Tell the Robot that it's Done Turning
+                self.turnState = False
+                self.navX.reset()
+                self.hasCompletedTurn = True
+                return True
+            else:
+                # Turn the Robot
+                self.robotDrive.arcadeDrive(0, -0.45)
+                self.turnState = True
     
     def driveDistance(self, travelDistance):
 

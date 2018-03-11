@@ -117,7 +117,7 @@ class Kylo(MagicRobot):
         self.compressor.start()
 
         # Rumble Controller
-        if (self.timer.get() > 85 and self.timer.get() < 105):
+        if (self.timer.get() > 75 and self.timer.get() < 105):
             self.driveController.rumble(1, 1)
         else:
             self.driveController.rumble(0, 0)

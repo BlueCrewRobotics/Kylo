@@ -24,7 +24,7 @@ class Straight(AutonomousStateMachine):
         self.cubemech.startPressurize()
 
         # Drive Forward
-        self.drivetrain.arcadeDrive(1.0, 0)
+        self.drivetrain.arcadeDrive(0.8, 0.4)
     
     @timed_state(duration=2, next_state='moveBackwards')
     def stop(self):
