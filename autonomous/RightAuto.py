@@ -17,17 +17,20 @@ class Right(AutonomousStateMachine):
 
         self.driverStation = wpilib.DriverStation.getInstance()
 
-        # Try to Collect Switch Position Data
-        try:
-            self.gameData = self.driverStation.getGameSpecificMessage()[0]
-        except IndexError:
-            self.gameData = "UNKNOWN"
-
-        # Print Switch Position (In event of failure for debugging)
-        print("Auto Switch Position: " + self.gameData)
 
     @timed_state(duration=2, next_state='stateTwo', first=True)
     def stateOne(self):
+
+        if (self.driverStation.getGameSpecificMessage()[0] == "L" or self.driverStation.getGameSpecificMessage()[0] == "R"):
+            # Try to Collect Switch Position Data
+            try:
+                self.gameData = self.driverStation.getGameSpecificMessage()[0]
+            except IndexError:
+                self.gameData = "UNKNOWN"
+
+            # Print Switch Position (In event of failure for debugging)
+            print("Auto Switch Position: " + self.gameData)
+
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
         print("Pressurize")
