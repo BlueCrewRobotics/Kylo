@@ -36,11 +36,11 @@ class Left(AutonomousStateMachine):
         self.cubemech.startPressurize()
 
         if (self.gameData == "L"):
-            print("Entering Auto Mode: Left")
+            print("Entering Auto Mode: Left Position Left Switch")
         elif (self.gameData == "R"):
-            print("Entering Auto Mode: Right")
+            print("Entering Auto Mode: Left Position Right Switch")
         else:
-            print("Entering Auto Mode: Fail Safe")
+            print("Entering Auto Mode: Left Position Fail Safe")
 
     @timed_state(duration=2.0, next_state='stateThree')
     def stateTwo(self):
