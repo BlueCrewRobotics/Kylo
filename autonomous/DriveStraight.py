@@ -37,4 +37,4 @@ class Straight(AutonomousStateMachine):
         self.cubemech.startPressurize()
 
         # Drive Forward
-        self.drivetrain.arcadeDrive(-1.0, 0)
+        self.drivetrain.arcadeDrive(-0.7, -0.4)
