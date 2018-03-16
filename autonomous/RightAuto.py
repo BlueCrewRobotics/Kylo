@@ -17,11 +17,12 @@ class Right(AutonomousStateMachine):
 
         self.driverStation = wpilib.DriverStation.getInstance()
 
+        self.gameData = "U"
 
     @timed_state(duration=2, next_state='stateTwo', first=True)
     def stateOne(self):
 
-        if (self.driverStation.getGameSpecificMessage()[0] == "L" or self.driverStation.getGameSpecificMessage()[0] == "R"):
+        if (self.driverStation.getGameSpecificMessage()):
             # Try to Collect Switch Position Data
             try:
                 self.gameData = self.driverStation.getGameSpecificMessage()[0]
@@ -35,6 +36,13 @@ class Right(AutonomousStateMachine):
         self.cubemech.startPressurize()
         print("Pressurize")
 
+        if (self.gameData == "L"):
+            print("Entering Auto Mode: Left")
+        elif (self.gameData == "R"):
+            print("Entering Auto Mode: Right")
+        else:
+            print("Entering Auto Mode: Fail Safe")
+
     @timed_state(duration=2.0, next_state='stateThree')
     def stateTwo(self):
         # Pressurize Pneumatics
@@ -42,10 +50,7 @@ class Right(AutonomousStateMachine):
 
         # Drive Forward
         print("Drive Forward")
-        if (self.gameData == "L"):
-            self.drivetrain.arcadeDrive(1.0, 0.4)
-        elif (self.gameData == "R"):
-            self.drivetrain.arcadeDrive(1.0, 0.4)
+        self.drivetrain.arcadeDrive(1.0, 0.4)
 
     @timed_state(duration=2.6, next_state='stateFour')
     def stateThree(self):
@@ -53,14 +58,14 @@ class Right(AutonomousStateMachine):
         self.cubemech.startPressurize()
 
         if (self.gameData == "L"):
-            print("Wait")
             # Wait to Continue
-            pass
+            print("Wait")
         elif (self.gameData == "R"):
             # Turn 90 Degrees Right
-            # self.drivetrain.arcadeDrive(0, -0.5)
             print("Turn")
             self.drivetrain.turnToAngleRight(85)
+        else:
+            print("Wait")
 
     @timed_state(duration=2.5, next_state='stateFive')
     def stateFour(self):
@@ -75,6 +80,10 @@ class Right(AutonomousStateMachine):
             # Drive to Switch
             print("Go to Switch")
             self.drivetrain.arcadeDrive(0.75, 0)
+        else:
+            # Drive back to Starting Position
+            print("Go Back to Start")
+            self.drivetrain.arcadeDrive(-1.0, -0.4)
 
     @timed_state(duration=2, next_state='stateSix')
     def stateFive(self):
@@ -83,15 +92,17 @@ class Right(AutonomousStateMachine):
 
         if (self.gameData == "L"):
             # Just Wait
-            pass
             print("Wait")
         elif (self.gameData == "R"):
             # Drop Cube
             print("Shoot")
             self.cubemech.shootCube()
+        else:
+            # Just Wait
+            print("Wait")
 
     @timed_state(duration=3.25)
     def stateSix(self):
         # Pressurize Pneumatics
-        self.cubemech.startPressurize()
         print("Keep Pressurize")
+        self.cubemech.startPressurize()

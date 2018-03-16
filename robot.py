@@ -81,7 +81,7 @@ class Kylo(MagicRobot):
         self.compressor = wpilib.Compressor()
 
         # Create CameraServer
-        wpilib.CameraServer.launch("common/multipleCameras.py:main")
+        #wpilib.CameraServer.launch("common/multipleCameras.py:main")
 
         # Set Gear in Dashboard
         wpilib.SmartDashboard.putString("Shift State", "Low Gear")
