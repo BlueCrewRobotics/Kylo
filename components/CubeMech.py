@@ -29,7 +29,7 @@ class CubeMech:
         self.intakeLifter.set(1.0)
 
     def shootCube(self):
-        self.intakeMotor.set(-0.35)
+        self.intakeMotor.set(-1.0)
     
     def intakeCube(self):
         self.intakeMotor.set(0.5)

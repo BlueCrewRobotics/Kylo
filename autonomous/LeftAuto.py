@@ -19,7 +19,7 @@ class Left(AutonomousStateMachine):
 
         self.gameData = "U"
 
-    @timed_state(duration=2, next_state='stateTwo', first=True)
+    @timed_state(duration=2.4, next_state='stateTwo', first=True)
     def stateOne(self):
         
         if (self.driverStation.getGameSpecificMessage()):
@@ -51,7 +51,7 @@ class Left(AutonomousStateMachine):
         print("Drive Forward")
         self.drivetrain.arcadeDrive(1.0, 0.4)
 
-    @timed_state(duration=2.6, next_state='stateFour')
+    @timed_state(duration=1.8, next_state='stateFour')
     def stateThree(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
@@ -59,15 +59,15 @@ class Left(AutonomousStateMachine):
         if (self.gameData == "L"):
             # Turn 90 Degrees Right
             print("Turn")
-            self.drivetrain.turnToAngleLeft(85)
+            self.drivetrain.turnToAngleLeft(80)
         elif (self.gameData == "R"):
-            # Wait to Continue
-            print("Wait")
+            # Stop Driving
+            self.drivetrain.stopDrive()
         else:
             # Wait to Continue
             print("Wait")
 
-    @timed_state(duration=2.5, next_state='stateFive')
+    @timed_state(duration=1.5, next_state='stateFive')
     def stateFour(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()

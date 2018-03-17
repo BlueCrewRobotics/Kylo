@@ -44,10 +44,13 @@ class DriveTrain:
     sd = NetworkTables.getTable('SmartDashboard')
 
     def arcadeDrive(self, ySpeed, xSpeed):    
-        self.robotDrive.arcadeDrive(ySpeed / 1.25, (xSpeed * -1) / 1.25, True)
+        self.robotDrive.arcadeDrive(ySpeed * 0.75, (xSpeed * -1) * 0.75, True)
     
     def driveStraight(self):        
         self.robotDrive.arcadeDrive(0.75, 0.4)
+
+    def stopDrive(self):
+        self.robotDrive.arcadeDrive(0, 0)
     
     def shiftGear(self):
         if (self.shiftState == False):
@@ -79,7 +82,7 @@ class DriveTrain:
                 return True
             else:
                 # Turn the Robot
-                self.robotDrive.arcadeDrive(0, 0.45)
+                self.robotDrive.arcadeDrive(0, 0.75)
                 self.turnState = True
 
     def turnToAngleLeft(self, angle):
@@ -101,8 +104,12 @@ class DriveTrain:
                 return True
             else:
                 # Turn the Robot
-                self.robotDrive.arcadeDrive(0, -0.45)
+                self.robotDrive.arcadeDrive(0, -0.75)
                 self.turnState = True
+
+    def resetNavX(self):
+        self.navXState = False
+        self.turnState = True
     
     def driveDistance(self, travelDistance):
 

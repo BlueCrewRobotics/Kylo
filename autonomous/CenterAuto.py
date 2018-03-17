@@ -43,7 +43,7 @@ class Center(AutonomousStateMachine):
         else:
             print("Entering Auto Mode: Center Position Fail Safe")
 
-    @timed_state(duration=2.0, next_state='stateThree')
+    @timed_state(duration=0.5, next_state='stateThree')
     def stateTwo(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
@@ -52,7 +52,7 @@ class Center(AutonomousStateMachine):
         print("Drive Forward")
         self.drivetrain.arcadeDrive(1.0, 0.4)
 
-    @timed_state(duration=2.6, next_state='stateFour')
+    @timed_state(duration=0.8, next_state='stateFour')
     def stateThree(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
@@ -60,18 +60,21 @@ class Center(AutonomousStateMachine):
         if (self.gameData == "L"):
             # Turn 90 Degrees Left
             print("Turn")
-            self.drivetrain.turnToAngleLeft(40)
+            self.drivetrain.turnToAngleRight(20)
         elif (self.gameData == "R"):
             # Turn 90 Degrees Right
             print("Turn")
-            self.drivetrain.turnToAngleRight(40)
+            self.drivetrain.turnToAngleLeft(20)
         else:
             print("Wait")
 
-    @timed_state(duration=2.5, next_state='stateFive')
+    @timed_state(duration=2.0, next_state='stateFive')
     def stateFour(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
+
+        # Reset NavX
+        self.drivetrain.resetNavX()
         
         if (self.gameData == "L"):
             # Drive to Switch
@@ -86,7 +89,7 @@ class Center(AutonomousStateMachine):
             print("Go Back to Start")
             self.drivetrain.arcadeDrive(-1.0, -0.4)
 
-    @timed_state(duration=2, next_state='stateSix')
+    @timed_state(duration=0.8, next_state='stateSix')
     def stateFive(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
@@ -94,11 +97,11 @@ class Center(AutonomousStateMachine):
         if (self.gameData == "L"):
             # Turn 90 Degrees Right
             print("Turn")
-            self.drivetrain.turnToAngleRight(40)
+            self.drivetrain.turnToAngleLeft(10)
         elif (self.gameData == "R"):
             # Turn 90 Degrees Left
             print("Turn")
-            self.drivetrain.turnToAngleLeft(40)
+            self.drivetrain.turnToAngleRight(5)
         else:
             # Just Wait
             print("Wait")

@@ -43,7 +43,7 @@ class Right(AutonomousStateMachine):
         else:
             print("Entering Auto Mode: Right Position Fail Safe")
 
-    @timed_state(duration=2.0, next_state='stateThree')
+    @timed_state(duration=2.2, next_state='stateThree')
     def stateTwo(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
@@ -52,7 +52,7 @@ class Right(AutonomousStateMachine):
         print("Drive Forward")
         self.drivetrain.arcadeDrive(1.0, 0.4)
 
-    @timed_state(duration=2.6, next_state='stateFour')
+    @timed_state(duration=1.8, next_state='stateFour')
     def stateThree(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
@@ -67,7 +67,7 @@ class Right(AutonomousStateMachine):
         else:
             print("Wait")
 
-    @timed_state(duration=2.5, next_state='stateFive')
+    @timed_state(duration=1.5, next_state='stateFive')
     def stateFour(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
