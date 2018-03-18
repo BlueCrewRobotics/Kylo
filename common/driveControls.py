@@ -45,14 +45,11 @@ class driveControls (threading.Thread):
                     self.driveSpeed = 0
                 
                 if (self.joystick.getX() > 0.1):
-                    self.turnSpeed = (self.joystick.getX() * 0.8) * 0.7 + 0.3
+                    self.turnSpeed = (self.joystick.getX() * 0.6) * 0.7 + 0.3
                 elif (self.joystick.getX() < -0.1):
-                    self.turnSpeed = (self.joystick.getX() * 0.8) * 0.7 + -0.3
+                    self.turnSpeed = (self.joystick.getX() * 0.6) * 0.7 + -0.3
                 else:
                     self.turnSpeed = 0
-
-                print("Summed Speed: " + str(self.summedSpeed))
-                print("Turn Speed: " + str(self.turnSpeed))
                 
             else:
                 self.driveSpeed = 0

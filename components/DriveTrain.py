@@ -44,7 +44,7 @@ class DriveTrain:
     sd = NetworkTables.getTable('SmartDashboard')
 
     def arcadeDrive(self, ySpeed, xSpeed):    
-        self.robotDrive.arcadeDrive(ySpeed * 0.75, (xSpeed * -1) * 0.75, True)
+        self.robotDrive.arcadeDrive(ySpeed, (xSpeed * -1), True)
     
     def driveStraight(self):        
         self.robotDrive.arcadeDrive(0.75, 0.4)
