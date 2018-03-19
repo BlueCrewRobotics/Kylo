@@ -50,7 +50,6 @@ class driveControls (threading.Thread):
                     self.turnSpeed = (self.joystick.getX() * 0.6) * 0.7 + -0.3
                 else:
                     self.turnSpeed = 0
-                
             else:
                 self.driveSpeed = 0
                 self.turnSpeed = 0
