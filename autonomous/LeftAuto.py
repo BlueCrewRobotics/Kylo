@@ -49,7 +49,7 @@ class Left(AutonomousStateMachine):
 
         # Drive Forward
         print("Drive Forward")
-        self.drivetrain.arcadeDrive(0.62, 0.20)
+        self.drivetrain.arcadeDrive(0.75, 0.20)
 
     @timed_state(duration=1.8, next_state='stateFour')
     def stateThree(self):

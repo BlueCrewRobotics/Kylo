@@ -50,7 +50,7 @@ class Center(AutonomousStateMachine):
 
         # Drive Forward
         print("Drive Forward")
-        self.drivetrain.arcadeDrive(1.0, 0.4)
+        self.drivetrain.arcadeDrive(.65, 0.2)
 
     @timed_state(duration=0.8, next_state='stateFour')
     def stateThree(self):
@@ -68,7 +68,7 @@ class Center(AutonomousStateMachine):
         else:
             print("Wait")
 
-    @timed_state(duration=2.0, next_state='stateFive')
+    @timed_state(duration=1.7, next_state='stateFive')
     def stateFour(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
@@ -79,11 +79,11 @@ class Center(AutonomousStateMachine):
         if (self.gameData == "L"):
             # Drive to Switch
             print("Go to Switch")
-            self.drivetrain.arcadeDrive(0.75, 0)
+            self.drivetrain.arcadeDrive(0.65, 0)
         elif (self.gameData == "R"):
             # Drive to Switch
             print("Go to Switch")
-            self.drivetrain.arcadeDrive(0.75, 0)
+            self.drivetrain.arcadeDrive(0.65, 0)
         else:
             # Drive back to Starting Position
             print("Go Back to Start")
@@ -114,11 +114,11 @@ class Center(AutonomousStateMachine):
         if (self.gameData == "L"):
             # Drive to Switch
             print("Go to Switch")
-            self.drivetrain.arcadeDrive(0.75, 0)
+            self.drivetrain.arcadeDrive(0.65, 0)
         elif (self.gameData == "R"):
             # Drive to Switch
             print("Go to Switch")
-            self.drivetrain.arcadeDrive(0.75, 0)
+            self.drivetrain.arcadeDrive(0.65, 0)
         else:
             # Just Wait
             print("Wait")

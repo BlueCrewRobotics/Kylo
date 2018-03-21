@@ -82,7 +82,7 @@ class DriveTrain:
                 return True
             else:
                 # Turn the Robot
-                self.robotDrive.arcadeDrive(0, 0.75)
+                self.robotDrive.arcadeDrive(0, 0.75*0.75)
                 self.turnState = True
 
     def turnToAngleLeft(self, angle):
