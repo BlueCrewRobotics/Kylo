@@ -50,7 +50,7 @@ class Right(AutonomousStateMachine):
 
         # Drive Forward
         print("Drive Forward")
-        self.drivetrain.arcadeDrive(1.0, 0.4)
+        self.drivetrain.arcadeDrive(0.60, 0.20)
 
     @timed_state(duration=1.8, next_state='stateFour')
     def stateThree(self):
@@ -75,7 +75,7 @@ class Right(AutonomousStateMachine):
         if (self.gameData == "L"):
             # Drive back to Starting Position
             print("Go Back to Start")
-            self.drivetrain.arcadeDrive(-1.0, -0.4)
+            self.drivetrain.arcadeDrive(-0.6, -0.20)
         elif (self.gameData == "R"):
             # Drive to Switch
             print("Go to Switch")

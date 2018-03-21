@@ -33,23 +33,27 @@ class driveControls (threading.Thread):
 
             time.sleep(self.delay)
 
-            self.summedSpeed = self.joystick.getRawAxis(2) * -0.8 + self.joystick.getRawAxis(3) * 0.8
+            #if (self.joystick.getRawAxis(2))
+            self.summedSpeed = self.joystick.getRawAxis(2) * -0.7 + self.joystick.getRawAxis(3) * 0.7
             
             if (self.joystick.getX() > 0.1 or self.joystick.getX() < -0.1 or self.summedSpeed > 0.1 or self.summedSpeed < -0.1):
                 
+                
+                if (self.joystick.getX() > 0.1):
+                    self.turnSpeed = (self.joystick.getX() * 0.54) * 0.8 + 0.2
+                elif (self.joystick.getX() < -0.1):
+                    self.turnSpeed = (self.joystick.getX() * 0.5) * 0.8 + -0.2
+                else:
+                    self.turnSpeed = 0
+                    
                 if (self.summedSpeed > 0.1):
-                    self.driveSpeed = (self.summedSpeed) * 0.7 + 0.3
+                    self.driveSpeed = (self.summedSpeed) * 0.8 + 0.2
                 elif (self.summedSpeed < -0.1):
-                    self.driveSpeed = (self.summedSpeed) * 0.7 + -0.3
+                    self.driveSpeed = (self.summedSpeed) * 0.8 + -0.2
+                    self.turnSpeed = self.turnSpeed * -1
                 else:
                     self.driveSpeed = 0
                 
-                if (self.joystick.getX() > 0.1):
-                    self.turnSpeed = (self.joystick.getX() * 0.6) * 0.7 + 0.3
-                elif (self.joystick.getX() < -0.1):
-                    self.turnSpeed = (self.joystick.getX() * 0.6) * 0.7 + -0.3
-                else:
-                    self.turnSpeed = 0
             else:
                 self.driveSpeed = 0
                 self.turnSpeed = 0
