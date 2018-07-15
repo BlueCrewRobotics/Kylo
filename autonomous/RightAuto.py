@@ -43,14 +43,14 @@ class Right(AutonomousStateMachine):
         else:
             print("Entering Auto Mode: Right Position Fail Safe")
 
-    @timed_state(duration=2.2, next_state='stateThree')
+    @timed_state(duration=1.9, next_state='stateThree')
     def stateTwo(self):
         # Pressurize Pneumatics
         self.cubemech.startPressurize()
 
         # Drive Forward
         print("Drive Forward")
-        self.drivetrain.arcadeDrive(.75, 0.20)
+        self.drivetrain.arcadeDrive(0.75, 0.20)
 
     @timed_state(duration=1.8, next_state='stateFour')
     def stateThree(self):
@@ -79,11 +79,11 @@ class Right(AutonomousStateMachine):
         elif (self.gameData == "R"):
             # Drive to Switch
             print("Go to Switch")
-            self.drivetrain.arcadeDrive(.75, 0)
+            self.drivetrain.arcadeDrive(0.75, 0)
         else:
             # Drive back to Starting Position
             print("Go Back to Start")
-            self.drivetrain.arcadeDrive(.75, -0.4)
+            self.drivetrain.arcadeDrive(0.60, -0.2)
 
     @timed_state(duration=2, next_state='stateSix')
     def stateFive(self):
