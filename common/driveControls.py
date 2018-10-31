@@ -53,7 +53,10 @@ class driveControls (threading.Thread):
                     self.turnSpeed = self.turnSpeed * -1
                 else:
                     self.driveSpeed = 0
-                
+            elif(self.driveController.right_bumper()):
+                print("Shift")
+                self.drivetrain.shiftGear()
+                time.sleep(0.5)
             else:
                 self.driveSpeed = 0
                 self.turnSpeed = 0

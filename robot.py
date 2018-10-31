@@ -91,7 +91,7 @@ class Kylo(MagicRobot):
 
         # Init Drive Controls
         DriverController = driveControls("DriveController", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
-        DriveAux = driveAux("DriveAux", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
+        #DriveAux = driveAux("DriveAux", self.driveController, self.drivetrain, self.cubemech, self.rampmech, self.driveJoystick, .05)
 
         # Init Subsystem Controls
         ArmMech = armMech("ArmMech", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
@@ -99,7 +99,7 @@ class Kylo(MagicRobot):
         SubsystemAux = subsystemAux("SubsystemAux", self.subsystemController, self.driveJoystick, self.cubemech, self.rampmech, .1)
        
         # Start Drive Controls
-        DriveAux.start()
+        #DriveAux.start()
         DriverController.start()
 
         # Start Subsystem Controls
